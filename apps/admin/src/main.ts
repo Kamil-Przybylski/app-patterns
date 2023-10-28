@@ -3,10 +3,10 @@
  * This is only a minimal backend to get started.
  */
 
+import { ConfigurationService } from '@libs/nest/config';
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-
-import { ConfigurationService } from '@libs/nest/config';
+import { Transport } from '@nestjs/microservices';
 import { AppModule } from './app/app.module';
 import { IConfig } from './app/config';
 
@@ -15,7 +15,15 @@ async function bootstrap() {
   const configService: ConfigurationService<IConfig> =
     app.get(ConfigurationService);
 
+  const tcpConfig = configService.get('tcp');
   const httpConfig = configService.get('http');
+
+  app.connectMicroservice({
+    transport: Transport.TCP,
+    options: { port: tcpConfig.port },
+  });
+  await app.startAllMicroservices();
+  Logger.log(`🚀 Microservice is running on TCP ${tcpConfig.port}`);
 
   app.setGlobalPrefix(httpConfig.prefix);
   await app.listen(httpConfig.port);
@@ -25,3 +33,6 @@ async function bootstrap() {
 }
 
 bootstrap();
+
+type X = keyof IConfig;
+const a: IConfig[X] = null as any;

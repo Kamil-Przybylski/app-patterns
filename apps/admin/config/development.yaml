@@ -1,0 +1,11 @@
+env: 'development'
+http:
+  host: 'localhost'
+  port: 3901
+  prefix: 'admin'
+tcp:
+  host: 'localhost'
+  port: 3902
+jwt:
+  secret: 'my-super-secret-2'
+  expiresIn: '1m'

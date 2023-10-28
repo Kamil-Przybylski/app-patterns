@@ -1,0 +1,5 @@
+env: 'development'
+db:
+  type: 'better-sqlite3'
+  database: 'my-db.db'
+  synchronize: true
