@@ -5,4 +5,8 @@ export interface IConfig {
     prefix: string;
     port: number;
   };
+  admin: {
+    host: string;
+    port: number;
+  };
 }

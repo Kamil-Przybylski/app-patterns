@@ -15,9 +15,14 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@admin": ["apps/admin/src/app"],
       "@libs/nest/configuration": ["libs/nest/configuration/src/index.ts"],
+      "@libs/nest/database": ["libs/nest/database/src/index.ts"],
       "@libs/nest/events": ["libs/nest/events/src/index.ts"],
-      "@libs/nest/database": ["libs/nest/database/src/index.ts"]
+      "@libs/nest/microservices": [
+        "libs/nest/microservices/src/index.ts"
+      ],
+      "api": ["apps/api/src/app"]
     }
   },
   "exclude": ["node_modules", "tmp"]

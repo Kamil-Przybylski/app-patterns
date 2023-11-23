@@ -7,7 +7,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
 import { DatabaseModule } from '@libs/nest/database';
-import { ClientsModule, Transport } from '@nestjs/microservices';
+import { MicroservicesModule } from '@libs/nest/microservices';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { IConfig, configSchema } from './config';
@@ -24,13 +24,14 @@ import { IConfig, configSchema } from './config';
       isGlobal: true,
       ignoreEnvFile: true,
     }),
-    ClientsModule.register([
-      { name: 'ADMIN', transport: Transport.TCP, options: { port: 3901 } },
-    ]),
 
     DatabaseModule,
+    MicroservicesModule.forAsyncRoot({
+      name: 'ADMIN',
+      configFn: (cs: ConfigurationService<IConfig>) => cs.get('admin').port,
+    }),
   ],
   controllers: [AppController],
-  providers: [ConfigurationService<IConfig>, AppService],
+  providers: [ConfigurationService, AppService],
 })
 export class AppModule {}

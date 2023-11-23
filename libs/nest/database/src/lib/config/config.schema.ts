@@ -9,4 +9,4 @@ export const configSchema = Joi.object<IConfig['db']>({
   password: Joi.string().allow(''),
   database: Joi.string().required(),
   synchronize: Joi.boolean().required(),
-});
+}).required();

@@ -6,7 +6,9 @@ import {
   ConfigurationService,
   loadConfiguration,
 } from '@libs/nest/configuration';
-import { IConfig, configSchema } from './config';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { configSchema } from './config';
 
 @Module({
   imports: [
@@ -21,7 +23,7 @@ import { IConfig, configSchema } from './config';
       ignoreEnvFile: true,
     }),
   ],
-  controllers: [],
-  providers: [ConfigurationService<IConfig>],
+  controllers: [AppController],
+  providers: [AppService, ConfigurationService],
 })
 export class AppModule {}

@@ -7,11 +7,18 @@ import { ConfigurationService } from '@libs/nest/configuration';
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { Transport } from '@nestjs/microservices';
+import {
+  FastifyAdapter,
+  NestFastifyApplication,
+} from '@nestjs/platform-fastify';
 import { AppModule } from './app/app.module';
 import { IConfig } from './app/config';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestFastifyApplication>(
+    AppModule,
+    new FastifyAdapter()
+  );
   const configService: ConfigurationService<IConfig> =
     app.get(ConfigurationService);
 
@@ -26,13 +33,10 @@ async function bootstrap() {
   Logger.log(`🚀 Microservice is running on TCP ${tcpConfig.port}`);
 
   app.setGlobalPrefix(httpConfig.prefix);
-  await app.listen(httpConfig.port);
+  await app.listen(httpConfig.port, '0.0.0.0');
   Logger.log(
     `🚀 Application is running on: http://localhost:${httpConfig.port}/${httpConfig.prefix}`
   );
 }
 
 bootstrap();
-
-type X = keyof IConfig;
-const a: IConfig[X] = null as any;

@@ -3,3 +3,5 @@ http:
   host: 'localhost'
   port: 3900
   prefix: 'api'
+admin:
+  port: 3902

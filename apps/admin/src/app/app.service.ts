@@ -9,8 +9,6 @@ export class AppService {
   }
 
   handleTestHere(data: any) {
-    console.log(666, data);
-
     this.data.push(data);
     return { status: 'ok' };
   }

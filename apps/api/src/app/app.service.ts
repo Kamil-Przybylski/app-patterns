@@ -12,7 +12,6 @@ export class AppService {
   }
 
   postData(body: any): Observable<any> {
-    console.log(555.1);
     this.adminClient.emit('test', new CreateUserEvent(body.email));
     return this.adminClient.send({ cmd: 'new_test' }, {});
   }
