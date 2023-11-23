@@ -6,7 +6,7 @@
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 
-import { ConfigurationService } from '@libs/nest/config';
+import { ConfigurationService } from '@libs/nest/configuration';
 import { AppModule } from './app/app.module';
 import { IConfig } from './app/config';
 

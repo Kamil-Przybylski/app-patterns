@@ -3,7 +3,7 @@
  * This is only a minimal backend to get started.
  */
 
-import { ConfigurationService } from '@libs/nest/config';
+import { ConfigurationService } from '@libs/nest/configuration';
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { Transport } from '@nestjs/microservices';

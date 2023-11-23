@@ -51,7 +51,7 @@
     },
     "serve": {
       "options": {
-        "port": 6000
+        "port": 6001
       },
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
