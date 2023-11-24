@@ -1,14 +1,10 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { NxWelcomeComponent } from './nx-welcome.component';
 
 @Component({
   standalone: true,
-  imports: [NxWelcomeComponent, RouterModule],
+  imports: [RouterModule],
   selector: 'nx-angular-nest-root',
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
+  template: `App is alive! <router-outlet /> `,
 })
-export class AppComponent {
-  title = 'todo-list';
-}
+export class AppComponent {}
