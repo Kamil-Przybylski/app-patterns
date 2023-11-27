@@ -2,10 +2,12 @@
   "cSpell.words": [
     "datetime",
     "devkit",
+    "dtos",
     "fastify",
     "nestjs",
     "ngrx",
     "nrwl",
+    "Serializability",
     "tailwindcss",
     "timestamptz",
     "typeorm"
@@ -29,5 +31,11 @@
     "titleBar.inactiveBackground": "#29297d99",
     "titleBar.inactiveForeground": "#e7e7e799"
   },
-  "peacock.color": "#29297d"
+  "peacock.color": "#29297d",
+  "angular-schematics.angularDisableProjectPathCheck": true,
+  "angular-schematics.schematicsDefaultOptions": {
+    "angular-*": {
+      "style": "scss"
+    }
+  }
 }

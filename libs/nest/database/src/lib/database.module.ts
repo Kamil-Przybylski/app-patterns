@@ -1,10 +1,11 @@
 import { validateConfiguration } from '@libs/nest/configuration';
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { CollectionsModule } from './collections/collections.module';
 import { IConfig, configSchema } from './config';
 
+@Global()
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({

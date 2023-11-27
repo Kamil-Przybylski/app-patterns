@@ -1,0 +1,28 @@
+<form [formGroup]="loginForm">
+  <mat-form-field>
+    <input
+      matInput
+      required
+      formControlName="email"
+      placeholder="Email"
+      type="email"
+    />
+    @if (emailControl?.errors?.['required']) {
+    <mat-error>Email is required!</mat-error>
+    } @if (emailControl?.errors?.['email']) {
+    <mat-error>Wrong email format!</mat-error>
+    }
+  </mat-form-field>
+  <mat-form-field>
+    <input
+      matInput
+      required
+      formControlName="password"
+      placeholder="Password"
+      type="password"
+    />
+    @if (passwordControl?.errors?.['required']) {
+    <mat-error>Password is required!</mat-error>
+    }
+  </mat-form-field>
+</form>

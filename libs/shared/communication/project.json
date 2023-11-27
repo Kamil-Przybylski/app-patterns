@@ -1,0 +1,31 @@
+{
+  "name": "shared-communication",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/shared/communication/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/shared/communication",
+        "main": "libs/shared/communication/src/index.ts",
+        "tsConfig": "libs/shared/communication/tsconfig.lib.json",
+        "assets": ["libs/shared/communication/*.md"],
+        "generatePackageJson": true,
+        "format": ["cjs"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/shared/communication/**/*.ts",
+          "libs/shared/communication/package.json"
+        ]
+      }
+    }
+  },
+  "tags": ["scope:backend", "scope:frontend"]
+}
