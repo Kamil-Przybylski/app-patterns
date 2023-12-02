@@ -1,6 +1,6 @@
 {
   "extends": "./tsconfig.json",
-  "include": ["src/**/*.ts", "../../libs/angular/modules/auth/src/lib/components/sign-in-form/sign-in-form.component.ts", "../../libs/angular/modules/auth/src/lib/components/sign-up-form/sign-up-form.component.ts"],
+  "include": ["src/**/*.ts"],
   "compilerOptions": {
     "types": ["jest", "node"]
   }

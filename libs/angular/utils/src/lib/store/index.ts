@@ -1,2 +1,2 @@
 export * from './store.provider';
-export * from './store.utils';
+export * from './store.models';

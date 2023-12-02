@@ -1,31 +1,23 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
 
-import {
-  ConfigurationKey,
-  ConfigurationService,
-  loadConfiguration,
-} from '@libs/nest/configuration';
+import { ConfigKeyEnum, ConfigRootModule, ConfigRootService } from '@libs/nest/configuration';
 import { configSchema } from './config';
-import { AuthenticationModule } from './authentication/authentication.module';
 import { DatabaseModule } from '@libs/nest/database';
+import { JwtRootModule, JwtStrategy, PassportRootModule } from '@libs/nest/auth';
+import { AuthenticationModule } from './authentication/authentication.module';
+
+const configNames = [ConfigKeyEnum.ADMIN, ConfigKeyEnum.DATABASE];
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      load: [
-        loadConfiguration(configSchema, [
-          ConfigurationKey.ADMIN,
-          ConfigurationKey.DATABASE,
-        ]),
-      ],
-      isGlobal: true,
-      ignoreEnvFile: true,
-    }),
+    ConfigRootModule.forRoot({ configSchema, configNames }),
+    PassportRootModule.forRoot({ strategy: JwtStrategy }),
+    JwtRootModule,
     DatabaseModule,
 
     AuthenticationModule,
   ],
-  providers: [ConfigurationService],
+  providers: [ConfigRootService],
+  exports: [ConfigRootService],
 })
 export class AppModule {}

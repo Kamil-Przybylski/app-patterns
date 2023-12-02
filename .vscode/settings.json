@@ -1,5 +1,6 @@
 {
   "cSpell.words": [
+    "Buildable",
     "datetime",
     "devkit",
     "dtos",
@@ -37,5 +38,8 @@
     "angular-*": {
       "style": "scss"
     }
-  }
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "eslint.format.enable": true
 }

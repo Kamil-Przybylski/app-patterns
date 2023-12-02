@@ -1,19 +1,7 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  Output,
-  inject,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Output, inject } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import {
-  FormsModule,
-  NonNullableFormBuilder,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormsModule, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { JsonPipe } from '@angular/common';
 
 import { TFormGroup } from '@libs/angular/utils';
@@ -22,14 +10,7 @@ import { FormControlsEnum, ISignUpFormPayload } from '../../models/auth-form.mod
 @Component({
   selector: 'auth-sign-up-form',
   standalone: true,
-  imports: [
-    JsonPipe,
-    FormsModule,
-    ReactiveFormsModule,
-
-    MatFormFieldModule,
-    MatInputModule,
-  ],
+  imports: [JsonPipe, FormsModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule],
   templateUrl: './sign-up-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

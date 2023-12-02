@@ -1,4 +1,4 @@
-export const enum ConfigurationKey {
+export const enum ConfigKeyEnum {
   API = 'api',
   ADMIN = 'admin',
   DATABASE = 'database',

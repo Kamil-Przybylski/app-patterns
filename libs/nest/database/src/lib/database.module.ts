@@ -1,6 +1,5 @@
-import { validateConfiguration } from '@libs/nest/configuration';
+import { ConfigRootService, validateConfig } from '@libs/nest/configuration';
 import { Global, Module } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { CollectionsModule } from './collections/collections.module';
 import { IConfig, configSchema } from './config';
@@ -9,9 +8,9 @@ import { IConfig, configSchema } from './config';
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
-      useFactory: (configService: ConfigService<IConfig>) => {
-        const config = configService.get('db', { infer: true });
-        validateConfiguration(configSchema, config);
+      useFactory: (cs: ConfigRootService<IConfig>) => {
+        const config = cs.get('db');
+        validateConfig(configSchema, config);
 
         return {
           type: config?.type,
@@ -24,7 +23,7 @@ import { IConfig, configSchema } from './config';
           autoLoadEntities: true,
         } as TypeOrmModuleOptions;
       },
-      inject: [ConfigService],
+      inject: [ConfigRootService],
     }),
     CollectionsModule,
   ],

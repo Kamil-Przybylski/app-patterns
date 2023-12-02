@@ -3,6 +3,7 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/shared/communication/src",
   "projectType": "library",
+  "tags": ["scope:shared"],
   "targets": {
     "build": {
       "executor": "@nx/esbuild:esbuild",
@@ -26,6 +27,5 @@
         ]
       }
     }
-  },
-  "tags": ["scope:backend", "scope:frontend"]
+  }
 }

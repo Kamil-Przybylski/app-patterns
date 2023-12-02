@@ -30,8 +30,7 @@ export class UsersService {
       return await this.usersRepository.save(user);
     } catch (error) {
       if (error instanceof QueryFailedError) {
-        if (error.message.toLowerCase().includes('unique'))
-          throw new ConflictException(error.message);
+        if (error.message.toLowerCase().includes('unique')) throw new ConflictException(error.message);
       }
       throw new BadRequestException(error);
     }
@@ -43,20 +42,13 @@ export class UsersService {
     });
     if (!user) throw new NotFoundException();
 
-    const isAuthorized = await bcrypt.compare(
-      dto.password,
-      user.hashedPassword
-    );
+    const isAuthorized = await bcrypt.compare(dto.password, user.hashedPassword);
     if (!isAuthorized) throw new UnauthorizedException();
 
     return user;
   }
 
-  async findOne(where: {
-    id?: number;
-    username?: string;
-    email?: string;
-  }): Promise<IUser | null> {
+  async findOne(where: { id?: number; username?: string; email?: string }): Promise<IUser | null> {
     if (!where.id && !where.username && !where.email) return null;
 
     const user = await this.usersRepository.findOne({

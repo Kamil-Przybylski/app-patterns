@@ -1,6 +1,7 @@
+import { ISignInDto, ISignUpDto } from '@libs/shared/communication';
 import { IsString, MinLength, MaxLength, IsEmail } from 'class-validator';
 
-export class SingUpDto {
+export class SingUpDto implements ISignUpDto {
   @IsString()
   @MinLength(3)
   @MaxLength(30)
@@ -15,5 +16,15 @@ export class SingUpDto {
   @IsString()
   @MinLength(8)
   @MaxLength(30)
+  password: string;
+}
+
+export class SingInDto implements ISignInDto {
+  @IsString()
+  @MinLength(6)
+  email: string;
+
+  @IsString()
+  @MinLength(3)
   password: string;
 }

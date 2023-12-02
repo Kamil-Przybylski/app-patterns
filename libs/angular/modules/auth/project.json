@@ -3,7 +3,7 @@
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/angular/modules/auth/src",
   "prefix": "auth",
-  "tags": [],
+  "tags": ["scope:frontend"],
   "projectType": "library",
   "targets": {
     "test": {

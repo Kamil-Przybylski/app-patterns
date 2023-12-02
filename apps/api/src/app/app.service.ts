@@ -1,18 +1,18 @@
 import { CreateUserEvent } from '@libs/nest/events';
+import { MicroservicesKeyEnum } from '@libs/nest/microservices';
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { Observable } from 'rxjs';
 
 @Injectable()
 export class AppService {
-  constructor(@Inject('ADMIN') private readonly adminClient: ClientProxy) {}
+  constructor(@Inject(MicroservicesKeyEnum.ADMIN) private readonly adminClient: ClientProxy) {}
 
-  getData(): Observable<any> {
-    return this.adminClient.send({ cmd: 'new_test' }, {});
+  getData(): boolean {
+    return true;
   }
 
-  postData(body: any): Observable<any> {
-    this.adminClient.emit('test', new CreateUserEvent(body.email));
-    return this.adminClient.send({ cmd: 'new_test' }, {});
+  postData(body: unknown): boolean {
+    this.adminClient.emit('test', new CreateUserEvent(body['email']));
+    return true;
   }
 }

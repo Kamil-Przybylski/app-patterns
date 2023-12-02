@@ -10,39 +10,20 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
-    "lib": [
-      "es2020",
-      "dom"
-    ],
+    "lib": ["es2020", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@libs/angular/utils": [
-        "libs/angular/utils/src/index.ts"
-      ],
-      "@libs/nest/configuration": [
-        "libs/nest/configuration/src/index.ts"
-      ],
-      "@libs/nest/database": [
-        "libs/nest/database/src/index.ts"
-      ],
-      "@libs/nest/events": [
-        "libs/nest/events/src/index.ts"
-      ],
-      "@libs/nest/microservices": [
-        "libs/nest/microservices/src/index.ts"
-      ],
-      "@libs/shared/communication": [
-        "libs/shared/communication/src/index.ts"
-      ],
-      "@libs/angular/modules/auth": [
-        "libs/angular/modules/auth/src/index.ts"
-      ]
+      "@libs/angular/modules/auth": ["libs/angular/modules/auth/src/index.ts"],
+      "@libs/angular/utils": ["libs/angular/utils/src/index.ts"],
+      "@libs/nest/configuration": ["libs/nest/configuration/src/index.ts"],
+      "@libs/nest/database": ["libs/nest/database/src/index.ts"],
+      "@libs/nest/events": ["libs/nest/events/src/index.ts"],
+      "@libs/nest/microservices": ["libs/nest/microservices/src/index.ts"],
+      "@libs/nest/auth": ["libs/nest/auth/src/index.ts"],
+      "@libs/shared/communication": ["libs/shared/communication/src/index.ts"]
     }
   },
-  "exclude": [
-    "node_modules",
-    "tmp"
-  ]
+  "exclude": ["node_modules", "tmp"]
 }

@@ -4,7 +4,7 @@ import * as yaml from 'js-yaml';
 import * as _ from 'lodash';
 import { join } from 'path';
 
-export const validateConfiguration = <T>(
+export const validateConfig = <T>(
   validationSchema: Joi.ObjectSchema<T>,
   config: T | undefined
 ): (() => Joi.ValidationResult<T>['value']) => {
@@ -22,7 +22,7 @@ export const validateConfiguration = <T>(
   return () => value;
 };
 
-export const loadConfiguration = <T = { [name: string]: unknown }>(
+export const loadConfig = <T = { [name: string]: unknown }>(
   validationSchema: Joi.ObjectSchema<T>,
   configNames: string[]
 ): (() => Joi.ValidationResult<T>['value']) => {
@@ -30,17 +30,10 @@ export const loadConfiguration = <T = { [name: string]: unknown }>(
 
   configNames.forEach((configName) => {
     const partConfig = yaml.load(
-      readFileSync(
-        join(
-          __dirname,
-          'config',
-          `${configName}.${process.env['NODE_ENV']}.yaml`
-        ),
-        'utf8'
-      )
+      readFileSync(join(__dirname, 'config', `${configName}.${process.env['NODE_ENV']}.yaml`), 'utf8')
     ) as T;
     config = _.assign(config, partConfig);
   });
 
-  return validateConfiguration(validationSchema, config);
+  return validateConfig(validationSchema, config);
 };

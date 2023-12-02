@@ -1,19 +1,10 @@
 {
   "root": true,
-  "ignorePatterns": [
-    "**/*"
-  ],
-  "plugins": [
-    "@nx"
-  ],
+  "ignorePatterns": ["**/*"],
+  "plugins": ["@nx"],
   "overrides": [
     {
-      "files": [
-        "*.ts",
-        "*.tsx",
-        "*.js",
-        "*.jsx"
-      ],
+      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
       "rules": {
         "@nx/enforce-module-boundaries": [
           "error",
@@ -23,23 +14,22 @@
             "depConstraints": [
               {
                 "sourceTag": "*",
-                "onlyDependOnLibsWithTags": [
-                  "*"
-                ]
+                "onlyDependOnLibsWithTags": ["*"]
               },
               {
                 "sourceTag": "scope:frontend",
-                "bannedExternalImports": [
-                  "@nestjs/*",
-                  "@libs/nest/*"
-                ]
+                "onlyDependOnLibsWithTags": ["scope:frontend", "scope:shared"],
+                "bannedExternalImports": ["@nestjs/*", "@libs/nest/*"]
               },
               {
                 "sourceTag": "scope:backend",
-                "bannedExternalImports": [
-                  "@angular/*",
-                  "@libs/angular/*"
-                ]
+                "onlyDependOnLibsWithTags": ["scope:backend", "scope:shared"],
+                "bannedExternalImports": ["@angular/*", "@libs/angular/*"]
+              },
+              {
+                "sourceTag": "scope:shared",
+                "onlyDependOnLibsWithTags": ["scope:shared"],
+                "bannedExternalImports": ["@angular/*", "@nestjs/*", "@libs/angular/*", "@libs/nest/*"]
               }
             ]
           }
@@ -47,35 +37,25 @@
       }
     },
     {
-      "files": [
-        "*.ts",
-        "*.tsx"
-      ],
-      "extends": [
-        "plugin:@nx/typescript"
-      ],
+      "files": ["*.ts", "*.tsx"],
+      "extends": ["plugin:@nx/typescript"],
       "rules": {}
     },
     {
-      "files": [
-        "*.js",
-        "*.jsx"
-      ],
-      "extends": [
-        "plugin:@nx/javascript"
-      ],
+      "files": ["*.js", "*.jsx"],
+      "extends": ["plugin:@nx/javascript"],
       "rules": {}
     },
     {
-      "files": [
-        "*.spec.ts",
-        "*.spec.tsx",
-        "*.spec.js",
-        "*.spec.jsx"
-      ],
+      "files": ["*.spec.ts", "*.spec.tsx", "*.spec.js", "*.spec.jsx"],
       "env": {
         "jest": true
       },
+      "rules": {}
+    },
+    {
+      "files": ["*.html"],
+      "extends": ["plugin:@angular-eslint/template/recommended"],
       "rules": {}
     }
   ]

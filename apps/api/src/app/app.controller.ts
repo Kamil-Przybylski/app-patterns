@@ -12,7 +12,7 @@ export class AppController {
   }
 
   @Post()
-  postData(@Body() body: any) {
+  postData(@Body() body: unknown) {
     return this.appService.postData(body);
   }
 }

@@ -1,9 +1,10 @@
-import { Body, ClassSerializerInterceptor, Controller, Post, UseInterceptors } from '@nestjs/common';
+import { Body, ClassSerializerInterceptor, Controller, Get, Post, UseGuards, UseInterceptors } from '@nestjs/common';
 
 import { AuthRoutesEnum } from '@libs/shared/communication';
 import { AuthenticationService } from './authentication.service';
-import { SingUpDto } from './authentication.dto';
-import { UserResponseDto } from '../dtos/user.dto';
+import { SingInDto, SingUpDto } from './authentication.dto';
+import { SignInResponseDto, UserResponseDto } from '../dtos/user.dto';
+import { JwtAuthGuard } from '@libs/nest/auth';
 
 @Controller(AuthRoutesEnum.AUTH)
 export class AuthenticationController {
@@ -14,5 +15,18 @@ export class AuthenticationController {
   public async singUp(@Body() signUpDto: SingUpDto) {
     const user = await this.authenticationService.signUp(signUpDto);
     return new UserResponseDto(user);
+  }
+
+  @Post(AuthRoutesEnum.SING_IN)
+  @UseInterceptors(ClassSerializerInterceptor)
+  public async singIn(@Body() signInDto: SingInDto) {
+    const payload = await this.authenticationService.signIn(signInDto);
+    return new SignInResponseDto(payload);
+  }
+
+  @Get()
+  @UseGuards(JwtAuthGuard)
+  test() {
+    return true;
   }
 }
