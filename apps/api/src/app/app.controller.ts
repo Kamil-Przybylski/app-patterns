@@ -1,18 +1,15 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Controller, Get, UseGuards } from '@nestjs/common';
 
 import { AppService } from './app.service';
+import { ApiAuthGuard } from '@libs/nest/auth';
 
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get()
+  @UseGuards(ApiAuthGuard)
   getData() {
-    return this.appService.getData();
-  }
-
-  @Post()
-  postData(@Body() body: unknown) {
-    return this.appService.postData(body);
+    return true;
   }
 }

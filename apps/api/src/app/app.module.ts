@@ -1,4 +1,4 @@
-import { ConfigRootModule, ConfigKeyEnum, ConfigRootService } from '@libs/nest/configuration';
+import { ConfigRootModule, ConfigKeyEnum, ConfigRootService } from '@libs/nest/config';
 import { Module } from '@nestjs/common';
 
 import { DatabaseModule } from '@libs/nest/database';

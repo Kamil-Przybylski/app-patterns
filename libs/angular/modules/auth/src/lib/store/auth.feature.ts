@@ -4,14 +4,16 @@ import { CallStatusEnum, CallStatusState } from '@libs/angular/utils';
 import { AUTH_FEATURE_KEY, authActions } from './auth.actions';
 
 interface State {
-  token: string | null;
+  accessToken: string | null;
+  refreshToken: string | null;
   user: IUser | null;
   signUpStatus: CallStatusState;
   signInStatus: CallStatusState;
 }
 
 const initialState: State = {
-  token: null,
+  accessToken: null,
+  refreshToken: null,
   user: null,
   signUpStatus: CallStatusEnum.INIT,
   signInStatus: CallStatusEnum.INIT,
@@ -42,7 +44,9 @@ export const authFeature = createFeature({
     })),
     on(authActions.signInSuccess, (state, { payload }) => ({
       ...state,
-      user: payload,
+      accessToken: payload.accessToken,
+      refreshToken: payload.refreshToken,
+      user: payload.user,
       signInStatus: CallStatusEnum.LOADED,
     })),
     on(authActions.signInError, (state, { payload }) => ({

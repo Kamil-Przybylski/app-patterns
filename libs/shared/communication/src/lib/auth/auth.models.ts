@@ -15,7 +15,12 @@ export interface ISignInDto {
   password: string;
 }
 
+export interface IRefreshTokenDto {
+  refreshToken: string;
+}
+
 export interface ISignInResponseDto {
   user: IUserDto;
   accessToken: string;
+  refreshToken: string;
 }

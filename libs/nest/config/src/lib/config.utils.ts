@@ -22,10 +22,7 @@ export const validateConfig = <T>(
   return () => value;
 };
 
-export const loadConfig = <T = { [name: string]: unknown }>(
-  validationSchema: Joi.ObjectSchema<T>,
-  configNames: string[]
-): (() => Joi.ValidationResult<T>['value']) => {
+export const getConfig = <T = { [name: string]: unknown }>(configNames: string[]): T => {
   let config: T = {} as T;
 
   configNames.forEach((configName) => {
@@ -35,5 +32,13 @@ export const loadConfig = <T = { [name: string]: unknown }>(
     config = _.assign(config, partConfig);
   });
 
+  return config;
+};
+
+export const loadConfig = <T = { [name: string]: unknown }>(
+  validationSchema: Joi.ObjectSchema<T>,
+  configNames: string[]
+): (() => Joi.ValidationResult<T>['value']) => {
+  const config = getConfig<T>(configNames);
   return validateConfig(validationSchema, config);
 };

@@ -17,7 +17,7 @@
     "paths": {
       "@libs/angular/modules/auth": ["libs/angular/modules/auth/src/index.ts"],
       "@libs/angular/utils": ["libs/angular/utils/src/index.ts"],
-      "@libs/nest/configuration": ["libs/nest/configuration/src/index.ts"],
+      "@libs/nest/config": ["libs/nest/config/src/index.ts"],
       "@libs/nest/database": ["libs/nest/database/src/index.ts"],
       "@libs/nest/events": ["libs/nest/events/src/index.ts"],
       "@libs/nest/microservices": ["libs/nest/microservices/src/index.ts"],

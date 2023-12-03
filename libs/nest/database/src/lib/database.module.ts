@@ -1,4 +1,4 @@
-import { ConfigRootService, validateConfig } from '@libs/nest/configuration';
+import { ConfigRootService, validateConfig } from '@libs/nest/config';
 import { Global, Module } from '@nestjs/common';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { CollectionsModule } from './collections/collections.module';

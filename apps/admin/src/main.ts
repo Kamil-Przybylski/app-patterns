@@ -3,7 +3,7 @@
  * This is only a minimal backend to get started.
  */
 
-import { ConfigRootService } from '@libs/nest/configuration';
+import { ConfigRootService } from '@libs/nest/config';
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { Transport } from '@nestjs/microservices';
@@ -26,7 +26,7 @@ async function bootstrap() {
   Logger.log(`🚀 Microservice is running on TCP ${tcpConfig.port}`);
 
   app.setGlobalPrefix(httpConfig.prefix);
-  app.enableCors();
+  app.enableCors(); // TODO: remove CORS, put to dev mode
   await app.listen(httpConfig.port, '0.0.0.0');
   Logger.log(`🚀 Application is running on: http://localhost:${httpConfig.port}/${httpConfig.prefix}`);
 }

@@ -1,6 +1,6 @@
 import { Global, Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
-import { ConfigRootService } from '@libs/nest/configuration';
+import { ConfigRootService } from '@libs/nest/config';
 
 interface IConfig {
   jwt: {

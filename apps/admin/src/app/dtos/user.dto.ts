@@ -25,6 +25,7 @@ export class UserResponseDto implements IUserDto {
 
 export class SignInResponseDto implements ISignInResponseDto {
   accessToken: string;
+  refreshToken: string;
   @Type(() => UserResponseDto)
   user: UserResponseDto;
 

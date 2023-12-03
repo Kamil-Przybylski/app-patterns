@@ -1,5 +1,5 @@
 import { EffectsModule } from '@ngrx/effects';
-import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { RouterState, StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreModule } from '@ngrx/store';
 import { importProvidersFrom } from '@angular/core';
@@ -7,7 +7,7 @@ import { importProvidersFrom } from '@angular/core';
 export const provideStore = () =>
   importProvidersFrom([
     EffectsModule.forRoot([]),
-    StoreRouterConnectingModule.forRoot(),
+    StoreRouterConnectingModule.forRoot({ routerState: RouterState.Minimal }),
     StoreModule.forRoot(
       {},
       {

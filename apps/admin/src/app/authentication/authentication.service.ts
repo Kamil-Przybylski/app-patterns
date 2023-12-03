@@ -3,6 +3,7 @@ import { IUser, UsersService } from '@libs/nest/database';
 import { SingInDto, SingUpDto } from './authentication.dto';
 import { JwtService } from '@nestjs/jwt';
 import { ISignInResponseDto } from '@libs/shared/communication';
+import { IJwtPayload } from '@libs/nest/auth';
 
 @Injectable()
 export class AuthenticationService {
@@ -14,12 +15,23 @@ export class AuthenticationService {
 
   public async signIn(signInDto: SingInDto): Promise<ISignInResponseDto> {
     const user = await this.usersService.signIn(signInDto);
-    const tokenPayload = { sub: user.id, username: user.username };
+    const tokenPayload: IJwtPayload = { sub: user.id, email: user.email };
 
-    console.log(555, tokenPayload);
     return {
       user,
       accessToken: await this.jwtService.signAsync(tokenPayload),
+      refreshToken: await this.jwtService.signAsync(tokenPayload, { expiresIn: '20s' }),
+    };
+  }
+
+  public async refresh(currentUser: IUser): Promise<ISignInResponseDto> {
+    const user = await this.usersService.findOne({ id: currentUser.id });
+    const tokenPayload: IJwtPayload = { sub: user.id, email: user.email };
+
+    return {
+      user,
+      accessToken: await this.jwtService.signAsync(tokenPayload),
+      refreshToken: await this.jwtService.signAsync(tokenPayload, { expiresIn: '20s' }),
     };
   }
 }

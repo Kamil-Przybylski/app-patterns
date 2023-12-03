@@ -8,4 +8,4 @@ tcp:
   port: 3902
 jwt:
   secret: 'my-super-secret-2'
-  expiresIn: '1m'
+  expiresIn: '10s'

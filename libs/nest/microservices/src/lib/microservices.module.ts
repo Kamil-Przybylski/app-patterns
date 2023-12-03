@@ -1,4 +1,4 @@
-import { ConfigRootService } from '@libs/nest/configuration';
+import { ConfigRootService } from '@libs/nest/config';
 import { DynamicModule, Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 

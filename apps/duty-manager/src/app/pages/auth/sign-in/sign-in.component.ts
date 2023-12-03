@@ -18,4 +18,8 @@ export class SignInComponent {
   public handleSubmit(payload: ISignInFormPayload) {
     this.#store.dispatch(authActions.signIn({ payload }));
   }
+
+  public test() {
+    this.#store.dispatch(authActions.test());
+  }
 }

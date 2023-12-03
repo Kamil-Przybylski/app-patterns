@@ -4,11 +4,11 @@ import { RootStrategy } from './models/strategy.models';
 
 @Module({})
 export class PassportRootModule {
-  static forRoot(options: { strategy: RootStrategy }): DynamicModule {
+  static forRoot(options: { strategies: RootStrategy[] }): DynamicModule {
     return {
       module: PassportRootModule,
       imports: [PassportModule],
-      providers: [options.strategy],
+      providers: [...options.strategies],
       exports: [PassportRootModule, PassportModule],
     };
   }
