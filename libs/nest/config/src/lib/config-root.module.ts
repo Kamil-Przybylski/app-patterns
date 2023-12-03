@@ -7,7 +7,10 @@ import { ConfigRootService } from './config-root.service';
 @Global()
 @Module({})
 export class ConfigRootModule {
-  static forRoot<T>(options: { configSchema: Joi.ObjectSchema<T>; configName: string }): DynamicModule {
+  static forRoot<T>(options: {
+    configSchema: Joi.ObjectSchema<T>;
+    configName: string;
+  }): DynamicModule {
     return {
       module: ConfigRootModule,
       imports: [
@@ -22,7 +25,10 @@ export class ConfigRootModule {
     };
   }
 
-  static forFeature<T>(options: { configSchema: Joi.ObjectSchema<T>; configName: string }): DynamicModule {
+  static forFeature<T>(options: {
+    configSchema: Joi.ObjectSchema<T>;
+    configName: string;
+  }): DynamicModule {
     return {
       module: ConfigRootModule,
       imports: [ConfigModule.forFeature(configFactory(options.configSchema, options.configName))],

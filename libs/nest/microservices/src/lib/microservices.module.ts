@@ -4,7 +4,10 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 
 @Module({})
 export class MicroservicesModule {
-  static forRoot<T>(options: { name: string; useFactory: (cs: ConfigRootService<T>) => number }): DynamicModule {
+  static forRoot<T>(options: {
+    name: string;
+    useFactory: (cs: ConfigRootService<T>) => number;
+  }): DynamicModule {
     return {
       module: MicroservicesModule,
       imports: [

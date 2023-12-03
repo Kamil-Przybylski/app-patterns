@@ -1,6 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { AuthRoutesEnum, ISignInDto, ISignInResponseDto, ISignUpDto, IUserDto } from '@libs/shared/communication';
+import {
+  AuthRoutesEnum,
+  ISignInDto,
+  ISignInResponseDto,
+  ISignUpDto,
+  IUserDto,
+} from '@libs/shared/communication';
 import { Observable, catchError, of } from 'rxjs';
 import { SignInDto, SignUpDto } from '../models/auth.dtos';
 

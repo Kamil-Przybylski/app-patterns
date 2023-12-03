@@ -9,7 +9,10 @@ export class PassportRootModule {
   static forRoot(options: { strategies: RootStrategy[] }): DynamicModule {
     return {
       module: PassportRootModule,
-      imports: [ConfigRootModule.forFeature({ configSchema, configName: ConfigKeyEnum.JWT }), PassportModule],
+      imports: [
+        ConfigRootModule.forFeature({ configSchema, configName: ConfigKeyEnum.JWT }),
+        PassportModule,
+      ],
       providers: [...options.strategies],
       exports: [PassportRootModule, PassportModule],
     };

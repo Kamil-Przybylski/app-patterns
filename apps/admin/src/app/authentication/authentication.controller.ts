@@ -1,4 +1,11 @@
-import { Body, ClassSerializerInterceptor, Controller, Post, UseGuards, UseInterceptors } from '@nestjs/common';
+import {
+  Body,
+  ClassSerializerInterceptor,
+  Controller,
+  Post,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 
 import { AuthRoutesEnum } from '@libs/shared/communication';
 import { GetUser, JwtRefreshGuard } from '@libs/nest/auth';

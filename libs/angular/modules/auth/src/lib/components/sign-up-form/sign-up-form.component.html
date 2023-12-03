@@ -27,7 +27,13 @@
 
   <!-- Repeat Password -->
   <mat-form-field>
-    <input matInput required formControlName="repeatPassword" placeholder="Repeat password" type="password" />
+    <input
+      matInput
+      required
+      formControlName="repeatPassword"
+      placeholder="Repeat password"
+      type="password"
+    />
     @if (repeatPasswordControl?.errors?.['required']) {
     <mat-error>Repeat password is required!</mat-error>
     }

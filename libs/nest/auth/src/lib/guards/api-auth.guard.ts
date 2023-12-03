@@ -1,5 +1,11 @@
 import { MicroservicesKeyEnum } from '@libs/nest/microservices';
-import { CanActivate, ExecutionContext, Inject, Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  CanActivate,
+  ExecutionContext,
+  Inject,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { catchError, map, Observable } from 'rxjs';
 

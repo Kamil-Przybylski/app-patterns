@@ -16,7 +16,9 @@ export class AuthEffects {
       exhaustMap(({ payload }) =>
         this.#authService.signUp(payload).pipe(
           map((user) => authActions.signUpSuccess({ payload: user })),
-          catchError((err) => of(authActions.signUpError({ payload: { errorMessage: err.message } })))
+          catchError((err) =>
+            of(authActions.signUpError({ payload: { errorMessage: err.message } }))
+          )
         )
       )
     )
@@ -28,7 +30,9 @@ export class AuthEffects {
       exhaustMap(({ payload }) =>
         this.#authService.signIn(payload).pipe(
           map((payload) => authActions.signInSuccess({ payload })),
-          catchError((err) => of(authActions.signInError({ payload: { errorMessage: err.message } })))
+          catchError((err) =>
+            of(authActions.signInError({ payload: { errorMessage: err.message } }))
+          )
         )
       )
     )
@@ -40,7 +44,9 @@ export class AuthEffects {
       exhaustMap(() =>
         this.#authService.test().pipe(
           switchMap(() => EMPTY),
-          catchError((err) => of(authActions.signInError({ payload: { errorMessage: err.message } })))
+          catchError((err) =>
+            of(authActions.signInError({ payload: { errorMessage: err.message } }))
+          )
         )
       )
     )

@@ -30,7 +30,8 @@ export class UsersService {
       return await this.usersRepository.save(user);
     } catch (error) {
       if (error instanceof QueryFailedError) {
-        if (error.message.toLowerCase().includes('unique')) throw new ConflictException(error.message);
+        if (error.message.toLowerCase().includes('unique'))
+          throw new ConflictException(error.message);
       }
       throw new BadRequestException(error);
     }
