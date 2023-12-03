@@ -5,7 +5,7 @@ import { IJwtPayload } from '../models/auth.models';
 import { IUser, UsersService } from '@libs/nest/database';
 import { StrategyKeyEnum } from '../models/strategy.models';
 import { ConfigRootService } from '@libs/nest/config';
-import { IConfig } from '../models/config';
+import { IConfig } from '../config/config.model';
 
 @Injectable()
 export class JwtRefreshStrategy extends PassportStrategy(Strategy, StrategyKeyEnum.JWT_REFRESH) {

@@ -12,8 +12,4 @@ export const configSchema = Joi.object<IConfig>({
     host: Joi.string().default('localhost'),
     port: Joi.number().required(),
   }).required(),
-  jwt: Joi.object<IConfig['jwt']>({
-    secret: Joi.string(),
-    expiresIn: Joi.string(),
-  }).required(),
 }).required();

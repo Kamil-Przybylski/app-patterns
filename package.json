@@ -2,7 +2,9 @@
   "name": "@nx-angular-nest/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "start:dev": "nx run-many -t serve -p api admin duty-manager"
+  },
   "private": true,
   "dependencies": {
     "@angular/animations": "~17.0.0",

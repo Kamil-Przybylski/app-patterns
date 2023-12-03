@@ -7,11 +7,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { IConfig, configSchema } from './config';
 
-const configNames = [ConfigKeyEnum.API, ConfigKeyEnum.DATABASE];
-
 @Module({
   imports: [
-    ConfigRootModule.forRoot({ configSchema, configNames }),
+    ConfigRootModule.forRoot({ configSchema, configName: ConfigKeyEnum.API }),
     MicroservicesModule.forRoot({
       name: MicroservicesKeyEnum.ADMIN,
       useFactory: (cs: ConfigRootService<IConfig>) => cs.get('admin').port,

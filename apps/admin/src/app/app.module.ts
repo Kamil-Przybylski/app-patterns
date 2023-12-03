@@ -7,11 +7,9 @@ import { JwtRefreshStrategy, JwtRootModule, JwtStrategy, PassportRootModule } fr
 import { AuthenticationModule } from './authentication/authentication.module';
 import { AuthorizationModule } from './authorization/authorization.module';
 
-const configNames = [ConfigKeyEnum.ADMIN, ConfigKeyEnum.DATABASE];
-
 @Module({
   imports: [
-    ConfigRootModule.forRoot({ configSchema, configNames }),
+    ConfigRootModule.forRoot({ configSchema, configName: ConfigKeyEnum.ADMIN }),
     PassportRootModule.forRoot({ strategies: [JwtStrategy, JwtRefreshStrategy] }),
     JwtRootModule,
     DatabaseModule,

@@ -6,6 +6,3 @@ http:
 tcp:
   host: 'localhost'
   port: 3902
-jwt:
-  secret: 'my-super-secret-2'
-  expiresIn: '10s'

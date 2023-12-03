@@ -1,7 +1,7 @@
+import { registerAs } from '@nestjs/config';
 import { readFileSync } from 'fs';
 import * as Joi from 'joi';
 import * as yaml from 'js-yaml';
-import * as _ from 'lodash';
 import { join } from 'path';
 
 export const validateConfig = <T>(
@@ -22,23 +22,19 @@ export const validateConfig = <T>(
   return () => value;
 };
 
-export const getConfig = <T = { [name: string]: unknown }>(configNames: string[]): T => {
-  let config: T = {} as T;
-
-  configNames.forEach((configName) => {
-    const partConfig = yaml.load(
-      readFileSync(join(__dirname, 'config', `${configName}.${process.env['NODE_ENV']}.yaml`), 'utf8')
-    ) as T;
-    config = _.assign(config, partConfig);
-  });
-
-  return config;
+export const getConfig = <T = { [name: string]: unknown }>(configName: string): T => {
+  return yaml.load(
+    readFileSync(join(__dirname, 'config', `${configName}.${process.env['NODE_ENV']}.yaml`), 'utf8')
+  ) as T;
 };
 
 export const loadConfig = <T = { [name: string]: unknown }>(
   validationSchema: Joi.ObjectSchema<T>,
-  configNames: string[]
+  configName: string
 ): (() => Joi.ValidationResult<T>['value']) => {
-  const config = getConfig<T>(configNames);
+  const config = getConfig<T>(configName);
   return validateConfig(validationSchema, config);
 };
+
+export const configFactory = <T>(validationSchema: Joi.ObjectSchema<T>, configName: string) =>
+  registerAs(configName, () => loadConfig(validationSchema, configName)()[configName]);

@@ -4,7 +4,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { IJwtPayload } from '../models/auth.models';
 import { IUser, UsersService } from '@libs/nest/database';
 import { StrategyKeyEnum } from '../models/strategy.models';
-import { IConfig } from '../models/config';
+import { IConfig } from '../config/config.model';
 import { ConfigRootService } from '@libs/nest/config';
 
 @Injectable()

@@ -1,6 +1,6 @@
 export interface IConfig {
   env: string;
-  db: {
+  database: {
     type: string;
     host: string;
     port: number;
