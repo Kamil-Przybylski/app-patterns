@@ -20,7 +20,7 @@ export class AuthenticationService {
     return {
       user,
       accessToken: await this.jwtService.signAsync(tokenPayload),
-      refreshToken: await this.jwtService.signAsync(tokenPayload, { expiresIn: '20s' }),
+      refreshToken: await this.jwtService.signAsync(tokenPayload, { expiresIn: '60s' }),
     };
   }
 
@@ -31,7 +31,7 @@ export class AuthenticationService {
     return {
       user,
       accessToken: await this.jwtService.signAsync(tokenPayload),
-      refreshToken: await this.jwtService.signAsync(tokenPayload, { expiresIn: '20s' }),
+      refreshToken: await this.jwtService.signAsync(tokenPayload, { expiresIn: '60s' }),
     };
   }
 }

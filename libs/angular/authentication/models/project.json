@@ -1,0 +1,27 @@
+{
+  "name": "angular-authentication-models",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/angular/authentication/models/src",
+  "prefix": "nx-angular-nest",
+  "tags": ["scope:frontend", "domain:authentication", "type:models"],
+  "projectType": "library",
+  "targets": {
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/angular/authentication/models/jest.config.ts"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/angular/authentication/models/**/*.ts",
+          "libs/angular/authentication/models/**/*.html"
+        ]
+      }
+    }
+  }
+}

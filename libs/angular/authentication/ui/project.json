@@ -1,0 +1,27 @@
+{
+  "name": "angular-authentication-ui",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/angular/authentication/ui/src",
+  "prefix": "authentication-ui",
+  "tags": ["scope:frontend", "domain:authentication", "type:ui"],
+  "projectType": "library",
+  "targets": {
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/angular/authentication/ui/jest.config.ts"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/angular/authentication/ui/**/*.ts",
+          "libs/angular/authentication/ui/**/*.html"
+        ]
+      }
+    }
+  }
+}

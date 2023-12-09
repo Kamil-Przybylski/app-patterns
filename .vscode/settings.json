@@ -4,6 +4,7 @@
     "datetime",
     "devkit",
     "dtos",
+    "endregion",
     "fastify",
     "nestjs",
     "ngrx",

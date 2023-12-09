@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { CoreModule } from './core/core.module';
+import { RouterModule } from '@angular/router';
 
 @Component({
-  imports: [CoreModule],
+  imports: [RouterModule],
   standalone: true,
   selector: 'dm-root',
   template: `<router-outlet /> `,

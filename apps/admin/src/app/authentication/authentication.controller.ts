@@ -37,6 +37,7 @@ export class AuthenticationController {
   @UseInterceptors(ClassSerializerInterceptor)
   public async refreshToken(@GetUser() user: IUser): Promise<SignInResponseDto> {
     const payload = await this.authenticationService.refresh(user);
+    await new Promise((r) => setTimeout(r, 3000));
     return new SignInResponseDto(payload);
   }
 }
