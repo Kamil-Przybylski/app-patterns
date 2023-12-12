@@ -1,4 +1,4 @@
-import { ISignInDto, ISignUpDto } from '@libs/shared/communication';
+import { ISignInDto, ISignUpDto, IRefreshTokenRequestDto } from '@libs/shared/communication';
 import { IsString, MinLength, MaxLength, IsEmail } from 'class-validator';
 
 export class SingUpDto implements ISignUpDto {
@@ -19,7 +19,7 @@ export class SingUpDto implements ISignUpDto {
   password: string;
 }
 
-export class SingInDto implements ISignInDto {
+export class SignInDto implements ISignInDto {
   @IsString()
   @MinLength(6)
   email: string;
@@ -27,4 +27,9 @@ export class SingInDto implements ISignInDto {
   @IsString()
   @MinLength(3)
   password: string;
+}
+
+export class RefreshTokenRequestDto implements IRefreshTokenRequestDto {
+  @IsString()
+  refreshToken: string;
 }

@@ -17,7 +17,7 @@ import {
 import { JsonPipe } from '@angular/common';
 
 import { TFormGroup } from '@libs/ng/utils';
-import { FormControlsEnum, ISignInFormPayload } from '@libs/ng/authentication/models';
+import { ISignInFormPayload } from '@libs/ng/authentication/models';
 
 @Component({
   selector: 'authentication-ui-sign-in-form',
@@ -36,10 +36,10 @@ export class SignInFormComponent {
   });
 
   public get emailControl() {
-    return this.loginForm.get(FormControlsEnum.EMAIL);
+    return this.loginForm.get('email');
   }
   public get passwordControl() {
-    return this.loginForm.get(FormControlsEnum.PASSWORD);
+    return this.loginForm.get('password');
   }
 
   @Output() public readonly bySubmit = new EventEmitter<ISignInFormPayload>();

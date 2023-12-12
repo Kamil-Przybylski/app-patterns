@@ -7,7 +7,6 @@ import {
   ISignUpDto,
 } from '@libs/shared/communication';
 import { TokenService } from './token.service';
-import { UserResponseDto } from '../models';
 
 @Injectable()
 export class AuthService {
@@ -22,16 +21,14 @@ export class AuthService {
 
   public async signIn(signInDto: ISignInDto): Promise<ISignInResponseDto> {
     const user = await this.usersService.signIn(signInDto);
-    const dto = new UserResponseDto(user);
 
-    const refreshToken = await this.tokenService.getTokenPayload(dto.execute(), 'refresh');
+    const accessToken = await this.tokenService.getTokenPayload(user.id, 'access');
+    const refreshToken = await this.tokenService.getTokenPayload(user.id, 'refresh');
+
     const hashedRefreshToken = await this.tokenService.hashToken(refreshToken);
     await this.usersService.updateOne(user.id, { hashedRefreshToken });
 
-    return {
-      accessToken: await this.tokenService.getTokenPayload(dto.execute(), 'access'),
-      refreshToken,
-    };
+    return { accessToken, refreshToken, user };
   }
 
   public async getRefreshToken(
@@ -42,8 +39,7 @@ export class AuthService {
     if (!user) throw new UnauthorizedException();
     await this.tokenService.validToken(refreshToken, user?.hashedRefreshToken);
 
-    const dto = new UserResponseDto(user);
-    const token = await this.tokenService.getTokenPayload(dto.execute(), 'access');
+    const token = await this.tokenService.getTokenPayload(user.id, 'access');
     return {
       accessToken: token,
     };

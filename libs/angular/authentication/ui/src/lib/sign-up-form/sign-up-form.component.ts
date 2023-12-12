@@ -16,7 +16,7 @@ import {
 } from '@angular/forms';
 import { JsonPipe } from '@angular/common';
 import { TFormGroup } from '@libs/ng/utils';
-import { FormControlsEnum, ISignUpFormPayload } from '@libs/ng/authentication/models';
+import { ISignUpFormPayload } from '@libs/ng/authentication/models';
 
 @Component({
   selector: 'authentication-ui-sign-up-form',
@@ -37,16 +37,16 @@ export class SignUpFormComponent {
   });
 
   public get usernameControl() {
-    return this.loginForm.get(FormControlsEnum.USERNAME);
+    return this.loginForm.get('username');
   }
   public get emailControl() {
-    return this.loginForm.get(FormControlsEnum.EMAIL);
+    return this.loginForm.get('email');
   }
   public get passwordControl() {
-    return this.loginForm.get(FormControlsEnum.PASSWORD);
+    return this.loginForm.get('password');
   }
   public get repeatPasswordControl() {
-    return this.loginForm.get(FormControlsEnum.REPEAT_PASSWORD);
+    return this.loginForm.get('repeatPassword');
   }
 
   @Output() public readonly bySubmit = new EventEmitter<ISignUpFormPayload>();

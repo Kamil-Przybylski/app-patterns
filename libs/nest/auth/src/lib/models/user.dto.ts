@@ -1,13 +1,15 @@
 import { IUser } from '@libs/nest/database';
 import { ISignInResponseDto, IUserDto } from '@libs/shared/communication';
 import { NotFoundException } from '@nestjs/common';
-import { Exclude, instanceToPlain } from 'class-transformer';
+import { Exclude, Type, instanceToPlain } from 'class-transformer';
 
-export class UserResponseDto implements IUserDto {
+export class UserResponseDto implements IUser {
   id!: number;
   username!: string;
   email!: string;
 
+  @Exclude()
+  hashedRefreshToken!: string;
   @Exclude()
   hashedPassword!: string;
   @Exclude()
@@ -30,6 +32,8 @@ export class UserResponseDto implements IUserDto {
 export class SignInResponseDto implements ISignInResponseDto {
   accessToken!: string;
   refreshToken!: string;
+  @Type(() => UserResponseDto)
+  user!: UserResponseDto;
 
   constructor(payload: ISignInResponseDto) {
     Object.assign(this, payload);

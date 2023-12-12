@@ -1,8 +1,6 @@
-import { FormControlsEnum } from './authentication.models';
-
 export interface ISignUpFormPayload {
-  [FormControlsEnum.USERNAME]: string;
-  [FormControlsEnum.EMAIL]: string;
-  [FormControlsEnum.PASSWORD]: string;
-  [FormControlsEnum.REPEAT_PASSWORD]: string;
+  username: string;
+  email: string;
+  password: string;
+  repeatPassword: string;
 }

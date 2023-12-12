@@ -5,7 +5,6 @@ export interface IUserDto {
 }
 
 export interface IAccessTokenDto {
-  user: IUserDto;
   sub: number;
   exp?: number;
   iat?: number;
@@ -31,6 +30,7 @@ export interface IRefreshTokenResponseDto {
 }
 
 export interface ISignInResponseDto {
+  user: IUserDto;
   accessToken: string;
   refreshToken: string;
 }

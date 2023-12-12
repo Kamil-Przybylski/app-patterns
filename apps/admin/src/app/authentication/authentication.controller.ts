@@ -16,7 +16,7 @@ import {
   SignInResponseDto,
   UserResponseDto,
 } from '@libs/nest/auth';
-import { SingInDto, SingUpDto } from './authentication.dto';
+import { RefreshTokenRequestDto, SignInDto, SingUpDto } from './authentication.dto';
 import { IUser } from '@libs/nest/database';
 
 @Controller(AuthRoutesEnum.AUTH)
@@ -32,7 +32,7 @@ export class AuthenticationController {
 
   @Post(AuthRoutesEnum.SING_IN)
   @UseInterceptors(ClassSerializerInterceptor)
-  public async singIn(@Body() signInDto: SingInDto): Promise<SignInResponseDto> {
+  public async singIn(@Body() signInDto: SignInDto): Promise<SignInResponseDto> {
     const payload = await this.authService.signIn(signInDto);
     return new SignInResponseDto(payload);
   }
@@ -42,11 +42,10 @@ export class AuthenticationController {
   @UseInterceptors(ClassSerializerInterceptor)
   public async getRefreshToken(
     @GetUser() user: IUser,
-    @Body('refreshToken') refreshToken: string,
+    @Body() refreshTokenDto: RefreshTokenRequestDto,
   ): Promise<IRefreshTokenResponseDto> {
-    if (!refreshToken) throw new UnauthorizedException();
-    const payload = await this.authService.getRefreshToken(user, refreshToken);
-    await new Promise((r) => setTimeout(r, 1000)); // TEMP
+    if (!refreshTokenDto) throw new UnauthorizedException();
+    const payload = await this.authService.getRefreshToken(user, refreshTokenDto.refreshToken);
     return payload;
   }
 }

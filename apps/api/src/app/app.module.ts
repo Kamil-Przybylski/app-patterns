@@ -1,4 +1,4 @@
-import { ConfigRootModule, ConfigKeyEnum, ConfigRootService } from '@libs/nest/config';
+import { ConfigRootModule, ConfigRootService } from '@libs/nest/config';
 import { Module } from '@nestjs/common';
 
 import { DatabaseModule } from '@libs/nest/database';
@@ -9,7 +9,7 @@ import { IConfig, configSchema } from './config';
 
 @Module({
   imports: [
-    ConfigRootModule.forRoot({ configSchema, configName: ConfigKeyEnum.API }),
+    ConfigRootModule.forRoot({ configSchema, configName: 'API' }),
     MicroservicesModule.forRoot({
       name: MicroservicesKeyEnum.ADMIN,
       useFactory: (cs: ConfigRootService<IConfig>) => cs.get('admin').port,

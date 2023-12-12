@@ -1,4 +1,4 @@
-import { ConfigKeyEnum, ConfigRootModule, ConfigRootService } from '@libs/nest/config';
+import { ConfigRootModule, ConfigRootService } from '@libs/nest/config';
 import { Global, Module } from '@nestjs/common';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { CollectionsModule } from './collections/collections.module';
@@ -7,7 +7,7 @@ import { IConfig, configSchema } from './config';
 @Global()
 @Module({
   imports: [
-    ConfigRootModule.forFeature({ configSchema, configName: ConfigKeyEnum.DATABASE }),
+    ConfigRootModule.forFeature({ configSchema, configName: 'DATABASE' }),
     TypeOrmModule.forRootAsync({
       useFactory: (cs: ConfigRootService<IConfig>) => {
         const config = cs.get('database');

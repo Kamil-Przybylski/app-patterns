@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 
-import { ConfigKeyEnum, ConfigRootModule, ConfigRootService } from '@libs/nest/config';
+import { ConfigRootModule, ConfigRootService } from '@libs/nest/config';
 import { configSchema } from './config';
 import { DatabaseModule } from '@libs/nest/database';
 import { AuthModule } from '@libs/nest/auth';
@@ -9,7 +9,7 @@ import { AuthorizationModule } from './authorization/authorization.module';
 
 @Module({
   imports: [
-    ConfigRootModule.forRoot({ configSchema, configName: ConfigKeyEnum.ADMIN }),
+    ConfigRootModule.forRoot({ configSchema, configName: 'ADMIN' }),
     DatabaseModule,
     AuthModule,
 

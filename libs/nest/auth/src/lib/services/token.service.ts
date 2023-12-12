@@ -2,7 +2,6 @@ import { ConfigRootService } from '@libs/nest/config';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { IConfig } from '../config';
-import { IAccessTokenDto, IUserDto } from '@libs/shared/communication';
 import * as bcrypt from 'bcrypt';
 
 type TokenType = 'access' | 'refresh';
@@ -14,19 +13,13 @@ export class TokenService {
     private readonly cs: ConfigRootService<IConfig>,
   ) {}
 
-  async getTokenPayload(user: IUserDto, type: TokenType): Promise<string> {
+  async getTokenPayload(id: number, type: TokenType): Promise<string> {
     const jwtConfig = this.cs.get('jwt');
-    if (type === 'refresh') {
-      const refreshPayload = { sub: user.id };
-      return await this.jwtService.signAsync(refreshPayload, {
-        expiresIn: jwtConfig.refreshExpiresIn,
-      });
-    } else {
-      const accessPayload: IAccessTokenDto = { sub: user.id, user };
-      return await this.jwtService.signAsync(accessPayload, {
-        expiresIn: jwtConfig.accessExpiresIn,
-      });
-    }
+
+    const tokenPayload = { sub: id };
+    return await this.jwtService.signAsync(tokenPayload, {
+      expiresIn: type === 'refresh' ? jwtConfig.refreshExpiresIn : jwtConfig.accessExpiresIn,
+    });
   }
 
   async hashToken(token: string): Promise<string> {
