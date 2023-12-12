@@ -4,6 +4,7 @@ export interface IConfig {
     host: string;
     prefix: string;
     port: number;
+    cors?: boolean;
   };
   admin: {
     host: string;

@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
+import { APP_CONFIG } from '@libs/ng/core/config';
 import {
   AuthRoutesEnum,
   ISignInDto,
@@ -11,14 +12,15 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
+  readonly #config = inject(APP_CONFIG);
   readonly #http = inject(HttpClient);
-  readonly #url1 = `http://localhost:3901/admin/${AuthRoutesEnum.AUTH}`;
+  readonly #url = `${this.#config.authUrl}/${AuthRoutesEnum.AUTH}`;
 
   signUp(payload: ISignUpDto): Observable<IUserDto> {
-    return this.#http.post<IUserDto>(`${this.#url1}/${AuthRoutesEnum.SING_UP}`, payload);
+    return this.#http.post<IUserDto>(`${this.#url}/${AuthRoutesEnum.SING_UP}`, payload);
   }
 
   signIn(payload: ISignInDto): Observable<ISignInResponseDto> {
-    return this.#http.post<ISignInResponseDto>(`${this.#url1}/${AuthRoutesEnum.SING_IN}`, payload);
+    return this.#http.post<ISignInResponseDto>(`${this.#url}/${AuthRoutesEnum.SING_IN}`, payload);
   }
 }

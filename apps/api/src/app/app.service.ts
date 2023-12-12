@@ -8,7 +8,6 @@ export class AppService {
   constructor(@Inject(MicroservicesKeyEnum.ADMIN) private readonly adminClient: ClientProxy) {}
 
   getData(): Observable<unknown> {
-    return this.adminClient.send({ cmd: 'get-users' }, {});
     return of(true);
   }
 }

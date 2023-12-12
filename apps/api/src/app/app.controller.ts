@@ -10,6 +10,6 @@ export class AppController {
   @Get()
   @UseGuards(ApiAuthGuard)
   getData() {
-    return true;
+    return this.appService.getData();
   }
 }

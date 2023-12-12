@@ -8,12 +8,10 @@ const authInitialProviderFactory = () => {
 
   return () => {
     const accessToken = LocalStorageUtils.getItem(LocalStorageKeys.ACCESS_TOKEN);
-    const refreshToken = LocalStorageUtils.getItem(LocalStorageKeys.ACCESS_TOKEN);
+    const refreshToken = LocalStorageUtils.getItem(LocalStorageKeys.REFRESH_TOKEN);
 
     if (accessToken && refreshToken) {
-      store.dispatch(authActions.initLogIn({ payload: { accessToken, refreshToken } }));
-    } else {
-      store.dispatch(authActions.logOut());
+      store.dispatch(authActions.logIn({ payload: { accessToken, refreshToken } }));
     }
     return true;
   };

@@ -3,10 +3,11 @@ import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { AuthenticationService } from '../services/authentication.service';
 import { Store } from '@ngrx/store';
 import { Observable, switchMap } from 'rxjs';
-import { ISignInDto, ISignUpDto } from '@libs/shared/communication';
+import { AuthRoutesEnum, ISignInDto, ISignUpDto } from '@libs/shared/communication';
 import { HttpErrorResponse } from '@angular/common/http';
 import { authActions } from '@libs/ng/core/auth';
 import { CallStatusEnum, CallStatusState } from '@libs/ng/utils';
+import { Router } from '@angular/router';
 
 interface AuthenticationState {
   signInCallStatus: CallStatusState;
@@ -21,6 +22,7 @@ const INITIAL_STATE: AuthenticationState = {
 @Injectable()
 export class AuthenticationFacade extends ComponentStore<AuthenticationState> {
   #authenticationService = inject(AuthenticationService);
+  #router = inject(Router);
   #store = inject(Store);
 
   constructor() {
@@ -33,8 +35,9 @@ export class AuthenticationFacade extends ComponentStore<AuthenticationState> {
         this.#authenticationService.signIn(payload).pipe(
           tapResponse(
             (dto) => {
-              this.#store.dispatch(authActions.logIn({ payload: dto }));
               this.patchState({ signInCallStatus: CallStatusEnum.LOADED });
+              this.#store.dispatch(authActions.logIn({ payload: dto }));
+              this.#router.navigate(['']);
             },
             (error: HttpErrorResponse) =>
               this.patchState({ signInCallStatus: { errorMessage: error.message } }),
@@ -51,6 +54,7 @@ export class AuthenticationFacade extends ComponentStore<AuthenticationState> {
           tapResponse(
             () => {
               this.patchState({ signUpCallStatus: CallStatusEnum.LOADED });
+              this.#router.navigate([AuthRoutesEnum.AUTH, AuthRoutesEnum.SING_IN]);
             },
             (error: HttpErrorResponse) =>
               this.patchState({ signUpCallStatus: { errorMessage: error.message } }),

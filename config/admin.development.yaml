@@ -3,6 +3,7 @@ http:
   host: 'localhost'
   port: 3901
   prefix: 'admin'
+  cors: true
 tcp:
   host: 'localhost'
   port: 3902

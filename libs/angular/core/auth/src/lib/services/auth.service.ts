@@ -1,16 +1,22 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { AuthRoutesEnum, IRefreshTokenDto, ISignInResponseDto } from '@libs/shared/communication';
+import { APP_CONFIG } from '@libs/ng/core/config';
+import {
+  AuthRoutesEnum,
+  IRefreshTokenRequestDto,
+  IRefreshTokenResponseDto,
+} from '@libs/shared/communication';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+  readonly #config = inject(APP_CONFIG);
   readonly #http = inject(HttpClient);
-  readonly #url1 = `http://localhost:3901/admin/${AuthRoutesEnum.AUTH}`;
+  readonly #url = `${this.#config.authUrl}/${AuthRoutesEnum.AUTH}`;
 
-  refreshToken(payload: IRefreshTokenDto): Observable<ISignInResponseDto> {
-    return this.#http.post<ISignInResponseDto>(
-      `${this.#url1}/${AuthRoutesEnum.REFRESH_TOKEN}`,
+  getRefreshToken(payload: IRefreshTokenRequestDto): Observable<IRefreshTokenResponseDto> {
+    return this.#http.post<IRefreshTokenResponseDto>(
+      `${this.#url}/${AuthRoutesEnum.REFRESH_TOKEN}`,
       payload,
     );
   }

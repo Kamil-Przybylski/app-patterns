@@ -3,5 +3,6 @@ http:
   host: 'localhost'
   port: 3900
   prefix: 'api'
+  cors: true
 admin:
   port: 3902

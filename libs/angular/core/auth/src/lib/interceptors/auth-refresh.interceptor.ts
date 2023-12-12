@@ -20,11 +20,16 @@ import {
 } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { LocalStorageKeys, LocalStorageUtils } from '@libs/ng/utils';
+import { Store } from '@ngrx/store';
+import { authActions } from '../store';
+import { Actions, ofType } from '@ngrx/effects';
 
 @Injectable()
 class AuthRefreshInterceptor implements HttpInterceptor {
-  #isRefreshing$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  #store = inject(Store);
+  #actions = inject(Actions);
   #authService = inject(AuthService);
+  #isRefreshing$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return this.#isRefreshing$.pipe(
@@ -40,23 +45,21 @@ class AuthRefreshInterceptor implements HttpInterceptor {
     next: HttpHandler,
     err: unknown,
   ): Observable<HttpEvent<unknown>> {
-    const refreshToken = LocalStorageUtils.getItem(LocalStorageKeys.REFRESH_TOKEN);
     if (
-      refreshToken &&
       this.#authService.validPath(request.url) &&
       err instanceof HttpErrorResponse &&
       err.status === 401
     ) {
       this.#isRefreshing$.next(true);
-      return this.#authService.refreshToken({ refreshToken }).pipe(
-        tap((res) => {
-          LocalStorageUtils.setItem(LocalStorageKeys.ACCESS_TOKEN, res.accessToken);
-          LocalStorageUtils.setItem(LocalStorageKeys.REFRESH_TOKEN, res.refreshToken);
-          this.#isRefreshing$.next(false);
-        }),
+      this.#store.dispatch(authActions.refreshToken());
+      return this.#actions.pipe(
+        ofType(authActions.refreshTokenSuccess),
+        take(1),
+        tap(() => this.#isRefreshing$.next(false)),
         exhaustMap(() => this.handleReqAgain(request, next)),
         catchError((err) => {
           this.#isRefreshing$.next(false);
+          this.#store.dispatch(authActions.logOut());
           return throwError(() => err);
         }),
       );

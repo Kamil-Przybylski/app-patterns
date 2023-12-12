@@ -5,6 +5,7 @@ export interface IUser extends IBase {
   email: string;
   hashedPassword: string;
   isActive: boolean;
+  hashedRefreshToken: string | null;
 }
 
 export interface ISignUpUser {

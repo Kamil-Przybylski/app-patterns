@@ -6,7 +6,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindOneOptions, QueryFailedError, Repository } from 'typeorm';
+import { FindOneOptions, QueryFailedError, Repository, UpdateResult } from 'typeorm';
 import { UserEntity } from './user.entity';
 import { ISignInUser, ISignUpUser, IUser } from './user.models';
 import * as bcrypt from 'bcrypt';
@@ -15,7 +15,7 @@ import * as bcrypt from 'bcrypt';
 export class UsersService {
   constructor(
     @InjectRepository(UserEntity)
-    private usersRepository: Repository<UserEntity>
+    private usersRepository: Repository<UserEntity>,
   ) {}
 
   async signUp(dto: ISignUpUser): Promise<IUser> {
@@ -61,5 +61,9 @@ export class UsersService {
 
   async findMany(): Promise<IUser[]> {
     return await this.usersRepository.find();
+  }
+
+  updateOne(id: number, dto: Partial<IUser>): Promise<UpdateResult> {
+    return this.usersRepository.update(id, dto);
   }
 }

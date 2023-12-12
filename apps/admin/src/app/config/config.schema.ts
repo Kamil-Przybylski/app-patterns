@@ -7,6 +7,7 @@ export const configSchema = Joi.object<IConfig>({
     host: Joi.string().default('localhost'),
     prefix: Joi.string().default('admin'),
     port: Joi.number().required(),
+    cors: Joi.boolean(),
   }).required(),
   tcp: Joi.object<IConfig['tcp']>({
     host: Joi.string().default('localhost'),

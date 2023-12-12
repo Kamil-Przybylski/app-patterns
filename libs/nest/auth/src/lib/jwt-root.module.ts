@@ -2,6 +2,7 @@ import { Global, Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigKeyEnum, ConfigRootModule, ConfigRootService } from '@libs/nest/config';
 import { IConfig, configSchema } from './config';
+import { TokenService } from './services/token.service';
 
 @Global()
 @Module({
@@ -9,15 +10,16 @@ import { IConfig, configSchema } from './config';
     ConfigRootModule.forFeature({ configSchema, configName: ConfigKeyEnum.JWT }),
     JwtModule.registerAsync({
       useFactory: (cs: ConfigRootService<IConfig>) => {
-        const { secret, expiresIn } = cs.get('jwt');
+        const { secret, accessExpiresIn } = cs.get('jwt');
         return {
           secret: secret,
-          signOptions: { expiresIn: expiresIn },
+          signOptions: { expiresIn: accessExpiresIn },
         };
       },
       inject: [ConfigRootService],
     }),
   ],
-  exports: [JwtModule],
+  providers: [TokenService],
+  exports: [JwtModule, TokenService],
 })
 export class JwtRootModule {}

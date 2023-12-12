@@ -15,4 +15,7 @@ export class UserEntity extends BaseEntity implements IUser {
 
   @Column({ default: true })
   public isActive: boolean;
+
+  @Column({ nullable: true })
+  public hashedRefreshToken: string | null;
 }

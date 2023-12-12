@@ -2,6 +2,7 @@ export interface IConfig {
   env: string;
   jwt: {
     secret: string;
-    expiresIn: string;
+    accessExpiresIn: string;
+    refreshExpiresIn: string;
   };
 }

@@ -4,6 +4,13 @@ export interface IUserDto {
   email: string;
 }
 
+export interface IAccessTokenDto {
+  user: IUserDto;
+  sub: number;
+  exp?: number;
+  iat?: number;
+}
+
 export interface ISignUpDto {
   username: string;
   email: string;
@@ -15,12 +22,15 @@ export interface ISignInDto {
   password: string;
 }
 
-export interface IRefreshTokenDto {
+export interface IRefreshTokenRequestDto {
   refreshToken: string;
 }
 
+export interface IRefreshTokenResponseDto {
+  accessToken: string;
+}
+
 export interface ISignInResponseDto {
-  user: IUserDto;
   accessToken: string;
   refreshToken: string;
 }

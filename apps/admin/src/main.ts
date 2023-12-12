@@ -26,9 +26,11 @@ async function bootstrap() {
   Logger.log(`🚀 Microservice is running on TCP ${tcpConfig.port}`);
 
   app.setGlobalPrefix(httpConfig.prefix);
-  app.enableCors(); // TODO: remove CORS, put to dev mode
+  if (httpConfig.cors) app.enableCors();
   await app.listen(httpConfig.port, '0.0.0.0');
-  Logger.log(`🚀 Application is running on: http://localhost:${httpConfig.port}/${httpConfig.prefix}`);
+  Logger.log(
+    `🚀 Application is running on: http://localhost:${httpConfig.port}/${httpConfig.prefix}`,
+  );
 }
 
 bootstrap();

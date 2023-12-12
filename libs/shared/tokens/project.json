@@ -1,0 +1,28 @@
+{
+  "name": "shared-tokens",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/shared/tokens/src",
+  "projectType": "library",
+  "tags": ["scope:shared"],
+  "targets": {
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/shared/tokens",
+        "main": "libs/shared/tokens/src/index.ts",
+        "tsConfig": "libs/shared/tokens/tsconfig.lib.json",
+        "assets": ["libs/shared/tokens/*.md"],
+        "generatePackageJson": true,
+        "format": ["cjs"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/shared/tokens/**/*.ts", "libs/shared/tokens/package.json"]
+      }
+    }
+  }
+}

@@ -3,41 +3,50 @@ import {
   ClassSerializerInterceptor,
   Controller,
   Post,
+  UnauthorizedException,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 
-import { AuthRoutesEnum } from '@libs/shared/communication';
-import { GetUser, JwtRefreshGuard } from '@libs/nest/auth';
-import { AuthenticationService } from './authentication.service';
+import { AuthRoutesEnum, IRefreshTokenResponseDto } from '@libs/shared/communication';
+import {
+  AuthService,
+  GetUser,
+  JwtRefreshGuard,
+  SignInResponseDto,
+  UserResponseDto,
+} from '@libs/nest/auth';
 import { SingInDto, SingUpDto } from './authentication.dto';
-import { SignInResponseDto, UserResponseDto } from '../dtos/user.dto';
 import { IUser } from '@libs/nest/database';
 
 @Controller(AuthRoutesEnum.AUTH)
 export class AuthenticationController {
-  constructor(private readonly authenticationService: AuthenticationService) {}
+  constructor(private readonly authService: AuthService) {}
 
   @Post(AuthRoutesEnum.SING_UP)
   @UseInterceptors(ClassSerializerInterceptor)
   public async singUp(@Body() signUpDto: SingUpDto): Promise<UserResponseDto> {
-    const user = await this.authenticationService.signUp(signUpDto);
+    const user = await this.authService.signUp(signUpDto);
     return new UserResponseDto(user);
   }
 
   @Post(AuthRoutesEnum.SING_IN)
   @UseInterceptors(ClassSerializerInterceptor)
   public async singIn(@Body() signInDto: SingInDto): Promise<SignInResponseDto> {
-    const payload = await this.authenticationService.signIn(signInDto);
+    const payload = await this.authService.signIn(signInDto);
     return new SignInResponseDto(payload);
   }
 
   @Post(AuthRoutesEnum.REFRESH_TOKEN)
   @UseGuards(JwtRefreshGuard)
   @UseInterceptors(ClassSerializerInterceptor)
-  public async refreshToken(@GetUser() user: IUser): Promise<SignInResponseDto> {
-    const payload = await this.authenticationService.refresh(user);
-    await new Promise((r) => setTimeout(r, 3000));
-    return new SignInResponseDto(payload);
+  public async getRefreshToken(
+    @GetUser() user: IUser,
+    @Body('refreshToken') refreshToken: string,
+  ): Promise<IRefreshTokenResponseDto> {
+    if (!refreshToken) throw new UnauthorizedException();
+    const payload = await this.authService.getRefreshToken(user, refreshToken);
+    await new Promise((r) => setTimeout(r, 1000)); // TEMP
+    return payload;
   }
 }
