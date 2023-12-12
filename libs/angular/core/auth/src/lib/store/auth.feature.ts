@@ -27,7 +27,7 @@ export const authFeature = createFeature({
         return { isLogged: true, userId: decoded.sub, tokenExpiresAt: decoded.expTime };
       }),
     ),
-    on(authActions.logOut, StoreUtils.patchState({ isLogged: false, userId: null })),
+    on(authActions.logOutExecute, StoreUtils.patchState({ isLogged: false, userId: null })),
 
     on(
       authActions.refreshTokenSuccess,

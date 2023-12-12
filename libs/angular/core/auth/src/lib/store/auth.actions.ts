@@ -6,7 +6,9 @@ export const authActions = createActionGroup({
   source: AUTH_FEATURE_KEY,
   events: {
     'Log In': props<{ payload: { accessToken: string; refreshToken: string } }>(),
+
     'Log Out': emptyProps(),
+    'Log Out Execute': emptyProps(),
 
     'Refresh Token': emptyProps(),
     'Refresh Token Success': props<{ payload: { accessToken: string } }>(),

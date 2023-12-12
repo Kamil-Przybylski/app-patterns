@@ -31,6 +31,11 @@ export class AuthService {
     return { accessToken, refreshToken, user };
   }
 
+  public async logout(userId: number): Promise<unknown> {
+    await this.usersService.updateOne(userId, { hashedRefreshToken: null });
+    return null;
+  }
+
   public async getRefreshToken(
     currentUser: IUser,
     refreshToken: string,

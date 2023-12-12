@@ -14,6 +14,13 @@ export class AuthService {
   readonly #http = inject(HttpClient);
   readonly #url = `${this.#config.authUrl}/${AuthRoutesEnum.AUTH}`;
 
+  logout(param: number | null): Observable<unknown> {
+    console.log(666.1, param);
+    if (!param) throw new Error('No userId provided!');
+    console.log(666.2, param);
+    return this.#http.get<unknown>(`${this.#url}/${AuthRoutesEnum.LOGOUT}/${param}`);
+  }
+
   getRefreshToken(payload: IRefreshTokenRequestDto): Observable<IRefreshTokenResponseDto> {
     return this.#http.post<IRefreshTokenResponseDto>(
       `${this.#url}/${AuthRoutesEnum.REFRESH_TOKEN}`,

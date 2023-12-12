@@ -1,10 +1,18 @@
-import { JwtAuthGuard, RcpExceptionsFilter } from '@libs/nest/auth';
-import { Controller, UseFilters, UseGuards } from '@nestjs/common';
+import { AuthService, JwtAuthGuard, RcpExceptionsFilter } from '@libs/nest/auth';
+import { AuthRoutesEnum, CommonRoutesParamEnum } from '@libs/shared/communication';
+import { Controller, Get, Param, UseFilters, UseGuards } from '@nestjs/common';
 
 import { MessagePattern } from '@nestjs/microservices';
 
-@Controller()
+@Controller(AuthRoutesEnum.AUTH)
 export class AuthorizationController {
+  constructor(private readonly authService: AuthService) {}
+
+  @Get(`${AuthRoutesEnum.LOGOUT}/:${CommonRoutesParamEnum.USER_ID}`)
+  logout(@Param(CommonRoutesParamEnum.USER_ID) userId: number): Promise<unknown> {
+    return this.authService.logout(userId);
+  }
+
   @MessagePattern({ cmd: 'verify-jwt' })
   @UseFilters(RcpExceptionsFilter)
   @UseGuards(JwtAuthGuard)
