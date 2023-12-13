@@ -22,7 +22,6 @@ import { APP_CONFIG } from '@libs/ng/core/config';
   standalone: true,
   selector: 'dm-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.scss',
 })
 export class DashboardComponent {
   #store = inject(Store);
