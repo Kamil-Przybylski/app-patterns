@@ -1,1 +1,1 @@
-export * from './lib/store-root.module';
+export * from './lib/store.provider';

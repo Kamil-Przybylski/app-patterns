@@ -19,8 +19,8 @@ export const appRoutes: Route[] = [
     path: AuthRoutesEnum.AUTH,
     canActivate: [authenticationGuardFunction],
     loadChildren: () =>
-      import('./pages/authentication/authentication-page.module').then(
-        (m) => m.AuthenticationPageModule,
+      import('./pages/authentication/authentication-page.routes').then(
+        (m) => m.authenticationPageRoutes,
       ),
   },
 ];

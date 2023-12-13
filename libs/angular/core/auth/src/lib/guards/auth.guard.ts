@@ -3,7 +3,7 @@ import { CanActivateFn, Router } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { Observable, map } from 'rxjs';
 import { authFeature } from '../store/auth.feature';
-import { AUTH_REDIRECT_PATH_TOKEN } from '../auth.token';
+import { AUTH_REDIRECT_PATH_TOKEN } from '../providers/auth.token';
 
 export const authGuardFunction: CanActivateFn = (): Observable<boolean> => {
   const router = inject(Router);

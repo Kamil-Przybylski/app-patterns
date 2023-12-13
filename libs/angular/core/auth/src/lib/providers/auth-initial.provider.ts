@@ -6,9 +6,9 @@ import {
 } from '@angular/core';
 import { LocalStorageKeys, LocalStorageUtils } from '@libs/ng/utils';
 import { Store } from '@ngrx/store';
-import { authActions } from './store/auth.actions';
+import { authActions } from '../store/auth.actions';
 
-const authInitialProviderFactory = () => {
+const authInitializerProviderFactory = () => {
   const store = inject(Store);
 
   return () => {
@@ -22,11 +22,11 @@ const authInitialProviderFactory = () => {
   };
 };
 
-export const authInitialProvider = (): EnvironmentProviders => {
+export const authInitializerProvider = (): EnvironmentProviders => {
   return makeEnvironmentProviders([
     {
       provide: APP_INITIALIZER,
-      useFactory: authInitialProviderFactory,
+      useFactory: authInitializerProviderFactory,
       multi: true,
     },
   ]);

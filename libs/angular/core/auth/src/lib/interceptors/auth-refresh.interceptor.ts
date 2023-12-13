@@ -1,11 +1,10 @@
-import { Injectable, inject } from '@angular/core';
+import { InjectionToken, inject } from '@angular/core';
 import {
   HttpRequest,
-  HttpHandler,
   HttpEvent,
-  HttpInterceptor,
   HttpErrorResponse,
-  HTTP_INTERCEPTORS,
+  HttpInterceptorFn,
+  HttpHandlerFn,
 } from '@angular/common/http';
 import {
   BehaviorSubject,
@@ -24,66 +23,51 @@ import { Store } from '@ngrx/store';
 import { authActions } from '../store';
 import { Actions, ofType } from '@ngrx/effects';
 
-@Injectable()
-class AuthRefreshInterceptor implements HttpInterceptor {
-  #store = inject(Store);
-  #actions = inject(Actions);
-  #authService = inject(AuthService);
-  #isRefreshing$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+export const IS_REFRESHING = new InjectionToken<BehaviorSubject<boolean>>('IS_REFRESHING', {
+  factory: () => new BehaviorSubject(false),
+});
 
-  intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    return this.#isRefreshing$.pipe(
-      filter((isRefreshing) => !isRefreshing || !this.#authService.validPath(request.url)),
-      take(1),
-      concatMap(() => this.handleReqAgain(request, next)),
-      catchError((err) => this.handleRefreshToken(request, next, err)),
-    );
-  }
+const handleReqAgain = (
+  request: HttpRequest<unknown>,
+  next: HttpHandlerFn,
+): Observable<HttpEvent<unknown>> => {
+  const token = LocalStorageUtils.getItem(LocalStorageKeys.ACCESS_TOKEN);
+  request = request.clone({
+    setHeaders: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return next(request);
+};
 
-  private handleRefreshToken(
-    request: HttpRequest<unknown>,
-    next: HttpHandler,
-    err: unknown,
-  ): Observable<HttpEvent<unknown>> {
-    if (
-      this.#authService.validPath(request.url) &&
-      err instanceof HttpErrorResponse &&
-      err.status === 401
-    ) {
-      this.#isRefreshing$.next(true);
-      this.#store.dispatch(authActions.refreshToken());
-      return this.#actions.pipe(
+export const authRefreshInterceptor: HttpInterceptorFn = (req, next) => {
+  const store = inject(Store);
+  const actions = inject(Actions);
+  const authService = inject(AuthService);
+  const isRefreshing$ = inject(IS_REFRESHING);
+
+  const isInvalidPath = !authService.validPath(req.url);
+  return isRefreshing$.pipe(
+    filter((isRefreshing) => !isRefreshing || isInvalidPath),
+    take(1),
+    concatMap(() => handleReqAgain(req, next)),
+    catchError((err) => {
+      if (isInvalidPath || !(err instanceof HttpErrorResponse) || err.status !== 401)
+        return throwError(() => err);
+
+      isRefreshing$.next(true);
+      store.dispatch(authActions.refreshToken());
+      return actions.pipe(
         ofType(authActions.refreshTokenSuccess),
         take(1),
-        tap(() => this.#isRefreshing$.next(false)),
-        exhaustMap(() => this.handleReqAgain(request, next)),
+        tap(() => isRefreshing$.next(false)),
+        exhaustMap(() => handleReqAgain(req, next)),
         catchError((err) => {
-          this.#isRefreshing$.next(false);
-          this.#store.dispatch(authActions.logOut());
+          isRefreshing$.next(false);
+          store.dispatch(authActions.logOut());
           return throwError(() => err);
         }),
       );
-    } else {
-      return throwError(() => err);
-    }
-  }
-
-  private handleReqAgain(
-    request: HttpRequest<unknown>,
-    next: HttpHandler,
-  ): Observable<HttpEvent<unknown>> {
-    const token = LocalStorageUtils.getItem(LocalStorageKeys.ACCESS_TOKEN);
-    request = request.clone({
-      setHeaders: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return next.handle(request);
-  }
-}
-
-export const getAuthRefreshInterceptor = () => ({
-  provide: HTTP_INTERCEPTORS,
-  useClass: AuthRefreshInterceptor,
-  multi: true,
-});
+    }),
+  );
+};
