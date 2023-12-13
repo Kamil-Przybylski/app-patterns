@@ -1,24 +1,17 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AUTH_REDIRECT_PATH_TOKEN, AuthRootModule } from '@libs/ng/core/auth';
-import { APP_CONFIG } from '@libs/ng/core/config';
+import { AuthRootModule, authProvider as authRedirectProvider } from '@libs/ng/core/auth';
 import { StoreRootModule } from '@libs/ng/core/store';
 import { AuthRoutesEnum } from '@libs/shared/communication';
 import { environment } from '../../environments/environment';
+import { provideAppConfig } from '@libs/ng/core/config';
 
 @NgModule({
-  imports: [HttpClientModule, BrowserAnimationsModule, StoreRootModule, AuthRootModule],
+  imports: [HttpClientModule, StoreRootModule, AuthRootModule],
   providers: [
     HttpClientModule,
-    {
-      provide: APP_CONFIG,
-      useValue: environment,
-    },
-    {
-      provide: AUTH_REDIRECT_PATH_TOKEN,
-      useValue: [AuthRoutesEnum.AUTH],
-    },
+    provideAppConfig(environment),
+    authRedirectProvider({ authGuardRedirectPath: [AuthRoutesEnum.AUTH] }),
   ],
 })
 export class CoreModule {}
