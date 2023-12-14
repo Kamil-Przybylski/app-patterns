@@ -1,16 +1,16 @@
 {
-  "name": "angular-authentication-data-access",
+  "name": "angular-authentication-api",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/angular/authentication/data-access/src",
+  "sourceRoot": "libs/angular/authentication/api/src",
   "prefix": "nx-angular-nest",
-  "tags": ["scope:frontend", "domain:authentication", "type:data-access"],
+  "tags": ["scope:frontend", "domain:authentication", "type:api"],
   "projectType": "library",
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "libs/angular/authentication/data-access/jest.config.ts"
+        "jestConfig": "libs/angular/authentication/api/jest.config.ts"
       }
     },
     "lint": {
@@ -18,8 +18,8 @@
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": [
-          "libs/angular/authentication/data-access/**/*.ts",
-          "libs/angular/authentication/data-access/**/*.html"
+          "libs/angular/authentication/api/**/*.ts",
+          "libs/angular/authentication/api/**/*.html"
         ]
       }
     }

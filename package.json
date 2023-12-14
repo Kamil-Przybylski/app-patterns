@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start:dev": "nx run-many -t serve -p api admin duty-manager"
+    "start:dev": "nx run-many -t serve -p api admin duty-manager",
+    "lint:all": "nx run-many --all --target=lint"
   },
   "private": true,
   "dependencies": {

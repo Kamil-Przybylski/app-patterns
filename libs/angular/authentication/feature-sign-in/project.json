@@ -1,0 +1,27 @@
+{
+  "name": "angular-authentication-feature-sign-in",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/angular/authentication/feature-sign-in/src",
+  "prefix": "authentication-feature",
+  "tags": ["scope:frontend", "domain:authentication", "type:feature"],
+  "projectType": "library",
+  "targets": {
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/angular/authentication/feature-sign-in/jest.config.ts"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/angular/authentication/feature-sign-in/**/*.ts",
+          "libs/angular/authentication/feature-sign-in/**/*.html"
+        ]
+      }
+    }
+  }
+}

@@ -3,7 +3,7 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/angular/utils/src",
   "prefix": "a-utils",
-  "tags": ["scope:frontend"],
+  "tags": ["scope:frontend", "domain:utils", "type:utils"],
   "projectType": "library",
   "targets": {
     "test": {
@@ -17,10 +17,7 @@
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": [
-          "libs/angular/utils/**/*.ts",
-          "libs/angular/utils/**/*.html"
-        ]
+        "lintFilePatterns": ["libs/angular/utils/**/*.ts", "libs/angular/utils/**/*.html"]
       }
     }
   }

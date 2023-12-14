@@ -4,7 +4,7 @@
   "projectType": "application",
   "prefix": "dm",
   "sourceRoot": "apps/duty-manager/src",
-  "tags": ["scope:frontend"],
+  "tags": ["scope:frontend", "type:app"],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:application",

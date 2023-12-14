@@ -29,7 +29,64 @@
               {
                 "sourceTag": "scope:shared",
                 "onlyDependOnLibsWithTags": ["scope:shared"],
-                "bannedExternalImports": ["@angular/*", "@nestjs/*", "@libs/angular/*", "@libs/nest/*"]
+                "bannedExternalImports": [
+                  "@angular/*",
+                  "@nestjs/*",
+                  "@libs/angular/*",
+                  "@libs/nest/*"
+                ]
+              },
+
+              {
+                "sourceTag": "type:api",
+                "onlyDependOnLibsWithTags": [
+                  "domain:core",
+                  "scope:shared",
+                  "type:data-access",
+                  "type:utils",
+                  "type:models"
+                ]
+              },
+              {
+                "sourceTag": "type:feature",
+                "onlyDependOnLibsWithTags": [
+                  "type:ui",
+                  "type:data-access",
+                  "type:utils",
+                  "type:models"
+                ]
+              },
+              {
+                "sourceTag": "type:ui",
+                "onlyDependOnLibsWithTags": ["type:ui", "type:utils", "type:models"]
+              },
+              {
+                "sourceTag": "type:data-access",
+                "onlyDependOnLibsWithTags": [
+                  "domain:core",
+                  "scope:shared",
+                  "type:data-access",
+                  "type:utils",
+                  "type:models"
+                ]
+              },
+              {
+                "sourceTag": "type:utils",
+                "onlyDependOnLibsWithTags": ["type:utils", "type:models"]
+              },
+              {
+                "sourceTag": "type:models",
+                "onlyDependOnLibsWithTags": ["type:models"]
+              },
+
+              {
+                "sourceTag": "type:app",
+                "onlyDependOnLibsWithTags": [
+                  "scope:shared",
+                  "domain:core",
+                  "type:feature",
+                  "type:api"
+                ]
               }
             ]
           }

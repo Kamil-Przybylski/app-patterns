@@ -1,24 +1,15 @@
-import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { SignUpFormComponent } from '@libs/ng/authentication/ui';
-import { AuthenticationFacade } from '@libs/ng/authentication/data-access';
-import { ISignUpFormPayload } from '@libs/ng/authentication/models';
-import { RouterModule } from '@angular/router';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { FeatureSignUpComponent } from '@libs/ng/authentication/feature-sign-up';
 
 @Component({
   selector: 'dm-sign-up',
+  imports: [FeatureSignUpComponent],
   standalone: true,
-  imports: [CommonModule, RouterModule, SignUpFormComponent, MatCardModule, MatButtonModule],
-  providers: [AuthenticationFacade],
-  templateUrl: './sign-up.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+    <div class="w-full h-full flex items-center justify-center">
+      <authentication-feature-sign-up />
+    </div>
+  `,
 })
-export class SignUpComponent {
-  #authenticationFacade = inject(AuthenticationFacade);
-
-  public handleSubmit(payload: ISignUpFormPayload) {
-    this.#authenticationFacade.signUp(payload);
-  }
-}
+export class SignUpComponent {}

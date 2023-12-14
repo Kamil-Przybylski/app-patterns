@@ -23,6 +23,13 @@
       "@libs/ng/authentication/data-access": [
         "libs/angular/authentication/data-access/src/index.ts"
       ],
+      "@libs/ng/authentication/feature-sign-in": [
+        "libs/angular/authentication/feature-sign-in/src/index.ts"
+      ],
+      "@libs/ng/authentication/feature-sign-up": [
+        "libs/angular/authentication/feature-sign-up/src/index.ts"
+      ],
+      "@libs/ng/authentication/api": ["libs/angular/authentication/api/src/index.ts"],
       "@libs/ng/authentication/models": ["libs/angular/authentication/models/src/index.ts"],
       "@libs/ng/authentication/ui": ["libs/angular/authentication/ui/src/index.ts"],
       "@libs/ng/authentication/utils": ["libs/angular/authentication/utils/src/index.ts"],
