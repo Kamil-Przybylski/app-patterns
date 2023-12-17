@@ -16,8 +16,8 @@ import {
 } from '@angular/forms';
 import { JsonPipe } from '@angular/common';
 
-import { TFormGroup } from '@libs/ng/utils';
 import { ISignInFormPayload } from '@libs/ng/authentication/models';
+import { TFormGroup } from '@libs/ng/shared/utils';
 
 @Component({
   selector: 'authentication-ui-sign-in-form',

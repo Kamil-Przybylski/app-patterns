@@ -18,10 +18,10 @@ import {
   throwError,
 } from 'rxjs';
 import { AuthService } from '../services/auth.service';
-import { LocalStorageKeys, LocalStorageUtils } from '@libs/ng/utils';
 import { Store } from '@ngrx/store';
 import { authActions } from '../store';
 import { Actions, ofType } from '@ngrx/effects';
+import { LocalStorage } from '@libs/ng/shared/local-storage';
 
 export const IS_REFRESHING = new InjectionToken<BehaviorSubject<boolean>>('IS_REFRESHING', {
   factory: () => new BehaviorSubject(false),
@@ -31,7 +31,7 @@ const handleReqAgain = (
   request: HttpRequest<unknown>,
   next: HttpHandlerFn,
 ): Observable<HttpEvent<unknown>> => {
-  const token = LocalStorageUtils.getItem(LocalStorageKeys.ACCESS_TOKEN);
+  const token = LocalStorage.getItem('accessToken');
   request = request.clone({
     setHeaders: {
       Authorization: `Bearer ${token}`,

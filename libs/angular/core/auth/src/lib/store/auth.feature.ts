@@ -1,8 +1,8 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { AUTH_FEATURE_KEY, authActions } from './auth.actions';
-import { StoreUtils } from '@libs/ng/utils';
 import { TokenUtils } from '@libs/shared/tokens';
 import { IAccessTokenDto } from '@libs/shared/communication';
+import { StoreUtils } from '@libs/ng/shared/utils';
 
 interface IState {
   userId: number | null;

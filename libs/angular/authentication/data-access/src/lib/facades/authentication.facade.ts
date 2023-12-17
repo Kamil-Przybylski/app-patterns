@@ -6,8 +6,8 @@ import { Observable, switchMap } from 'rxjs';
 import { AuthRoutesEnum, ISignInDto, ISignUpDto } from '@libs/shared/communication';
 import { HttpErrorResponse } from '@angular/common/http';
 import { authActions } from '@libs/ng/core/auth';
-import { CallStatusEnum, CallStatusState } from '@libs/ng/utils';
 import { Router } from '@angular/router';
+import { CallStatusEnum, CallStatusState } from '@libs/ng/shared/utils';
 
 interface AuthenticationState {
   signInCallStatus: CallStatusState;

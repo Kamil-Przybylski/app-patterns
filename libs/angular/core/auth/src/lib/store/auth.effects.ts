@@ -2,10 +2,10 @@ import { Injectable, inject } from '@angular/core';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { authActions } from './auth.actions';
 import { catchError, exhaustMap, map, of, tap } from 'rxjs';
-import { LocalStorageKeys, LocalStorageUtils } from '@libs/ng/utils';
 import { AuthService } from '../services/auth.service';
 import { authFeature } from './auth.feature';
 import { Store } from '@ngrx/store';
+import { LocalStorage } from '@libs/ng/shared/local-storage';
 
 @Injectable()
 export class AuthEffects {
@@ -18,8 +18,8 @@ export class AuthEffects {
       this.#actions.pipe(
         ofType(authActions.logIn),
         tap(({ payload }) => {
-          LocalStorageUtils.setItem(LocalStorageKeys.ACCESS_TOKEN, payload.accessToken);
-          LocalStorageUtils.setItem(LocalStorageKeys.REFRESH_TOKEN, payload.refreshToken);
+          LocalStorage.setItem('accessToken', payload.accessToken);
+          LocalStorage.setItem('refreshToken', payload.refreshToken);
         }),
       ),
     {
@@ -45,8 +45,8 @@ export class AuthEffects {
       this.#actions.pipe(
         ofType(authActions.logOutExecute),
         tap(() => {
-          LocalStorageUtils.removeItem(LocalStorageKeys.ACCESS_TOKEN);
-          LocalStorageUtils.removeItem(LocalStorageKeys.REFRESH_TOKEN);
+          LocalStorage.removeItem('accessToken');
+          LocalStorage.removeItem('refreshToken');
           location.reload();
         }),
       ),
@@ -59,12 +59,12 @@ export class AuthEffects {
     this.#actions.pipe(
       ofType(authActions.refreshToken),
       exhaustMap(() => {
-        const refreshToken = LocalStorageUtils.getItem(LocalStorageKeys.REFRESH_TOKEN);
+        const refreshToken = LocalStorage.getItem('refreshToken');
         if (!refreshToken) return of(authActions.logOut());
 
         return this.#authService.getRefreshToken({ refreshToken }).pipe(
           tap((res) => {
-            LocalStorageUtils.setItem(LocalStorageKeys.ACCESS_TOKEN, res.accessToken);
+            LocalStorage.setItem('accessToken', res.accessToken);
           }),
           map((res) => authActions.refreshTokenSuccess({ payload: res })),
           catchError(() => of(authActions.logOut())),

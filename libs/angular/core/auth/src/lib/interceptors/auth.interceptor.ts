@@ -1,8 +1,8 @@
 import { HttpInterceptorFn } from '@angular/common/http';
-import { LocalStorageKeys, LocalStorageUtils } from '@libs/ng/utils';
+import { LocalStorage } from '@libs/ng/shared/local-storage';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  const token = LocalStorageUtils.getItem(LocalStorageKeys.ACCESS_TOKEN);
+  const token = LocalStorage.getItem('accessToken');
   if (token) {
     req = req.clone({
       setHeaders: {

@@ -40,8 +40,9 @@
               {
                 "sourceTag": "type:api",
                 "onlyDependOnLibsWithTags": [
-                  "domain:core",
                   "scope:shared",
+                  "domain:core",
+                  "domain:shared",
                   "type:data-access",
                   "type:utils",
                   "type:models"
@@ -50,6 +51,7 @@
               {
                 "sourceTag": "type:feature",
                 "onlyDependOnLibsWithTags": [
+                  "domain:shared",
                   "type:ui",
                   "type:data-access",
                   "type:utils",
@@ -58,13 +60,19 @@
               },
               {
                 "sourceTag": "type:ui",
-                "onlyDependOnLibsWithTags": ["type:ui", "type:utils", "type:models"]
+                "onlyDependOnLibsWithTags": [
+                  "domain:shared",
+                  "type:ui",
+                  "type:utils",
+                  "type:models"
+                ]
               },
               {
                 "sourceTag": "type:data-access",
                 "onlyDependOnLibsWithTags": [
-                  "domain:core",
                   "scope:shared",
+                  "domain:core",
+                  "domain:shared",
                   "type:data-access",
                   "type:utils",
                   "type:models"

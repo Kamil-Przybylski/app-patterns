@@ -20,6 +20,7 @@
       "@libs/nest/database": ["libs/nest/database/src/index.ts"],
       "@libs/nest/events": ["libs/nest/events/src/index.ts"],
       "@libs/nest/microservices": ["libs/nest/microservices/src/index.ts"],
+      "@libs/ng/authentication/api": ["libs/angular/authentication/api/src/index.ts"],
       "@libs/ng/authentication/data-access": [
         "libs/angular/authentication/data-access/src/index.ts"
       ],
@@ -29,14 +30,14 @@
       "@libs/ng/authentication/feature-sign-up": [
         "libs/angular/authentication/feature-sign-up/src/index.ts"
       ],
-      "@libs/ng/authentication/api": ["libs/angular/authentication/api/src/index.ts"],
       "@libs/ng/authentication/models": ["libs/angular/authentication/models/src/index.ts"],
       "@libs/ng/authentication/ui": ["libs/angular/authentication/ui/src/index.ts"],
       "@libs/ng/authentication/utils": ["libs/angular/authentication/utils/src/index.ts"],
       "@libs/ng/core/auth": ["libs/angular/core/auth/src/index.ts"],
       "@libs/ng/core/config": ["libs/angular/core/config/src/index.ts"],
       "@libs/ng/core/store": ["libs/angular/core/store/src/index.ts"],
-      "@libs/ng/utils": ["libs/angular/utils/src/index.ts"],
+      "@libs/ng/shared/local-storage": ["libs/angular/shared/local-storage/src/index.ts"],
+      "@libs/ng/shared/utils": ["libs/angular/shared/utils/src/index.ts"],
       "@libs/shared/communication": ["libs/shared/communication/src/index.ts"],
       "@libs/shared/tokens": ["libs/shared/tokens/src/index.ts"]
     }
