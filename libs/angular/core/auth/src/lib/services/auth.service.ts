@@ -26,7 +26,7 @@ export class AuthService {
     );
   }
 
-  validPath(url: string) {
-    return ![AuthRoutesEnum.REFRESH_TOKEN].some((fragment) => url.includes(fragment));
+  isAuthPath(url: string) {
+    return ![AuthRoutesEnum.AUTH].some((fragment) => url.includes(fragment));
   }
 }

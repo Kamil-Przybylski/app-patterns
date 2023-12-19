@@ -7,6 +7,7 @@ import {
   ISignUpDto,
 } from '@libs/shared/communication';
 import { TokenService } from './token.service';
+import { UserId } from '@libs/shared/models';
 
 @Injectable()
 export class AuthService {
@@ -31,7 +32,7 @@ export class AuthService {
     return { accessToken, refreshToken, user };
   }
 
-  public async logout(userId: number): Promise<unknown> {
+  public async logout(userId: UserId): Promise<unknown> {
     await this.usersService.updateOne(userId, { hashedRefreshToken: null });
     return null;
   }

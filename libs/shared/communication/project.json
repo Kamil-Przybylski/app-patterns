@@ -13,7 +13,6 @@
         "main": "libs/shared/communication/src/index.ts",
         "tsConfig": "libs/shared/communication/tsconfig.lib.json",
         "assets": ["libs/shared/communication/*.md"],
-        "generatePackageJson": true,
         "format": ["cjs"]
       }
     },
@@ -21,10 +20,7 @@
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": [
-          "libs/shared/communication/**/*.ts",
-          "libs/shared/communication/package.json"
-        ]
+        "lintFilePatterns": ["libs/shared/communication/**/*.ts"]
       }
     }
   }

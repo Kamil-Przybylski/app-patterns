@@ -3,9 +3,10 @@ import { AUTH_FEATURE_KEY, authActions } from './auth.actions';
 import { TokenUtils } from '@libs/shared/tokens';
 import { IAccessTokenDto } from '@libs/shared/communication';
 import { StoreUtils } from '@libs/ng/shared/utils';
+import { UserId } from '@libs/shared/models';
 
 interface IState {
-  userId: number | null;
+  userId: UserId | null;
   isLogged: boolean | null;
   tokenExpiresAt: number | null;
 }
@@ -24,7 +25,7 @@ export const authFeature = createFeature({
       authActions.logIn,
       StoreUtils.patchState(({ payload }) => {
         const decoded = TokenUtils.decodeToken<IAccessTokenDto>(payload.accessToken);
-        return { isLogged: true, userId: decoded.sub, tokenExpiresAt: decoded.expTime };
+        return { isLogged: true, userId: decoded.sub as UserId, tokenExpiresAt: decoded.expTime };
       }),
     ),
     on(authActions.logOutExecute, StoreUtils.patchState({ isLogged: false, userId: null })),

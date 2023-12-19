@@ -3,6 +3,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { IConfig } from '../config';
 import * as bcrypt from 'bcrypt';
+import { UserId } from '@libs/shared/models';
 
 type TokenType = 'access' | 'refresh';
 
@@ -13,7 +14,7 @@ export class TokenService {
     private readonly cs: ConfigRootService<IConfig>,
   ) {}
 
-  async getTokenPayload(id: number, type: TokenType): Promise<string> {
+  async getTokenPayload(id: UserId, type: TokenType): Promise<string> {
     const jwtConfig = this.cs.get('jwt');
 
     const tokenPayload = { sub: id };

@@ -1,14 +1,14 @@
-<mat-sidenav-container class="h-full">
+<mat-sidenav-container class="t-h-full">
   <mat-sidenav #sidenav role="navigation">
     <mat-nav-list>
       <mat-list-item>
-        <a matListItemTitle class="flex content-center gap-2" routerLink="dashboard">
+        <a matListItemTitle class="t-flex t-items-center t-gap-2" routerLink="dashboard">
           <mat-icon>home</mat-icon>
           <span>Home</span>
         </a>
       </mat-list-item>
       <mat-list-item>
-        <a matListItemTitle class="flex content-center gap-2" (click)="logout()">
+        <a matListItemTitle class="t-flex t-items-center t-gap-2" (click)="logout()">
           <mat-icon>info</mat-icon>
           <span>Log out</span>
         </a>
@@ -16,8 +16,8 @@
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <mat-toolbar class="flex gap-5">
-      <button mat-icon-button class="flex" (click)="sidenav.open()">
+    <mat-toolbar class="t-flex gap-5">
+      <button mat-icon-button class="t-flex" (click)="sidenav.open()">
         <mat-icon>menu</mat-icon>
       </button>
       <span>My App</span>

@@ -46,13 +46,13 @@ export const authRefreshInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
   const isRefreshing$ = inject(IS_REFRESHING);
 
-  const isInvalidPath = !authService.validPath(req.url);
+  const isAuthPath = authService.isAuthPath(req.url);
   return isRefreshing$.pipe(
-    filter((isRefreshing) => !isRefreshing || isInvalidPath),
+    filter((isRefreshing) => !isRefreshing || !isAuthPath),
     take(1),
     concatMap(() => handleReqAgain(req, next)),
     catchError((err) => {
-      if (isInvalidPath || !(err instanceof HttpErrorResponse) || err.status !== 401)
+      if (!isAuthPath || !(err instanceof HttpErrorResponse) || err.status !== 401)
         return throwError(() => err);
 
       isRefreshing$.next(true);

@@ -2,9 +2,10 @@ import { IUser } from '@libs/nest/database';
 import { ISignInResponseDto, IUserDto } from '@libs/shared/communication';
 import { NotFoundException } from '@nestjs/common';
 import { Exclude, Type, instanceToPlain } from 'class-transformer';
+import { UserId } from '@libs/shared/models';
 
 export class UserResponseDto implements IUser {
-  id!: number;
+  id!: UserId;
   username!: string;
   email!: string;
 

@@ -1,4 +1,8 @@
-<form class="flex flex-col gap-2" [formGroup]="loginForm">
+<form class="t-flex t-flex-col t-gap-2" [formGroup]="loginForm">
+  @if (error) {
+  <ui-notification class="t-mb-4" icon="error_outline">{{ error }}</ui-notification>
+  }
+
   <!-- Username -->
   <mat-form-field>
     <input matInput required formControlName="username" placeholder="Username" type="text" />

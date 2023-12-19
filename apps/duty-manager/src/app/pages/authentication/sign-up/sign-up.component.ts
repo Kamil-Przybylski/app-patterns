@@ -7,7 +7,7 @@ import { FeatureSignUpComponent } from '@libs/ng/authentication/feature-sign-up'
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div class="w-full h-full flex items-center justify-center">
+    <div class="t-w-full t-h-full t-flex t-items-center t-justify-center">
       <authentication-feature-sign-up />
     </div>
   `,

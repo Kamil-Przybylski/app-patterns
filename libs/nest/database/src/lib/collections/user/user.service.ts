@@ -10,6 +10,7 @@ import { FindOneOptions, QueryFailedError, Repository, UpdateResult } from 'type
 import { UserEntity } from './user.entity';
 import { ISignInUser, ISignUpUser, IUser } from './user.models';
 import * as bcrypt from 'bcrypt';
+import { UserId } from '@libs/shared/models';
 
 @Injectable()
 export class UsersService {
@@ -49,7 +50,7 @@ export class UsersService {
     return user;
   }
 
-  async findOne(where: { id?: number; username?: string; email?: string }): Promise<IUser | null> {
+  async findOne(where: { id?: UserId; username?: string; email?: string }): Promise<IUser | null> {
     if (!where.id && !where.username && !where.email) return null;
 
     const user = await this.usersRepository.findOne({
@@ -63,7 +64,7 @@ export class UsersService {
     return await this.usersRepository.find();
   }
 
-  updateOne(id: number, dto: Partial<IUser>): Promise<UpdateResult> {
+  updateOne(id: UserId, dto: Partial<IUser>): Promise<UpdateResult> {
     return this.usersRepository.update(id, dto);
   }
 }

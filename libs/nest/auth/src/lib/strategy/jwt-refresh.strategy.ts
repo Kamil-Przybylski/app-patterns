@@ -6,6 +6,7 @@ import { IUser, UsersService } from '@libs/nest/database';
 import { StrategyKeyEnum } from '../models/strategy.models';
 import { ConfigRootService } from '@libs/nest/config';
 import { IConfig } from '../config/config.model';
+import { UserId } from '@libs/shared/models';
 
 @Injectable()
 export class JwtRefreshStrategy extends PassportStrategy(Strategy, StrategyKeyEnum.JWT_REFRESH) {
@@ -19,7 +20,7 @@ export class JwtRefreshStrategy extends PassportStrategy(Strategy, StrategyKeyEn
   }
 
   async validate(payload: IJwtPayload): Promise<IUser> {
-    const user = await this.usersService.findOne({ id: payload.sub });
+    const user = await this.usersService.findOne({ id: payload.sub as UserId });
     if (!user) throw new UnauthorizedException();
     return user;
   }

@@ -18,7 +18,7 @@
         "inlineStyleLanguage": "scss",
         "assets": ["apps/duty-manager/src/favicon.ico", "apps/duty-manager/src/assets"],
         "styles": [
-          "@angular/material/prebuilt-themes/purple-green.css",
+          "@angular/material/prebuilt-themes/pink-bluegrey.css",
           "apps/duty-manager/src/styles.scss"
         ],
         "scripts": []

@@ -1,5 +1,7 @@
+import { UserId } from '@libs/shared/models';
+
 export interface IUserDto {
-  id: number;
+  id: UserId;
   username: string;
   email: string;
 }

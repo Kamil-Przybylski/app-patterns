@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   EventEmitter,
+  Input,
   Output,
   inject,
 } from '@angular/core';
@@ -17,47 +18,62 @@ import {
 import { JsonPipe } from '@angular/common';
 import { ISignUpFormPayload } from '@libs/ng/authentication/models';
 import { TFormGroup } from '@libs/ng/shared/utils';
+import { UiNotificationComponent } from '@libs/ng/shared/shared/ui';
 
 @Component({
   selector: 'authentication-ui-sign-up-form',
   standalone: true,
-  imports: [JsonPipe, FormsModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule],
+  imports: [
+    JsonPipe,
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+
+    UiNotificationComponent,
+  ],
   templateUrl: './sign-up-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SignUpFormComponent {
-  private readonly fb = inject(NonNullableFormBuilder);
-  private readonly cd = inject(ChangeDetectorRef);
+  @Input() set disabled(value: boolean) {
+    if (value) this.loginForm.disable();
+    else this.loginForm.enable();
+  }
+  @Input() error?: string;
 
-  public readonly loginForm = this.fb.group<TFormGroup<ISignUpFormPayload>>({
-    username: this.fb.control('test', [Validators.required]),
-    email: this.fb.control('test@test.pl', [Validators.required, Validators.email]),
-    password: this.fb.control('test', [Validators.required]),
-    repeatPassword: this.fb.control('test', [Validators.required]),
+  readonly #fb = inject(NonNullableFormBuilder);
+  readonly #cd = inject(ChangeDetectorRef);
+
+  readonly loginForm = this.#fb.group<TFormGroup<ISignUpFormPayload>>({
+    username: this.#fb.control('test', [Validators.required]),
+    email: this.#fb.control('test@test.pl', [Validators.required, Validators.email]),
+    password: this.#fb.control('test', [Validators.required]),
+    repeatPassword: this.#fb.control('test', [Validators.required]),
   });
 
-  public get usernameControl() {
+  get usernameControl() {
     return this.loginForm.get('username');
   }
-  public get emailControl() {
+  get emailControl() {
     return this.loginForm.get('email');
   }
-  public get passwordControl() {
+  get passwordControl() {
     return this.loginForm.get('password');
   }
-  public get repeatPasswordControl() {
+  get repeatPasswordControl() {
     return this.loginForm.get('repeatPassword');
   }
 
-  @Output() public readonly bySubmit = new EventEmitter<ISignUpFormPayload>();
+  @Output() readonly bySubmit = new EventEmitter<ISignUpFormPayload>();
 
-  public submit() {
+  submit() {
     if (this.loginForm.valid) {
       const payload = this.loginForm.getRawValue();
       this.bySubmit.emit(payload);
     } else {
       this.loginForm.markAllAsTouched();
-      this.cd.detectChanges();
+      this.#cd.detectChanges();
     }
   }
 }

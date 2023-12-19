@@ -38,6 +38,11 @@
               },
 
               {
+                "sourceTag": "domain:shared",
+                "onlyDependOnLibsWithTags": ["domain:shared"]
+              },
+
+              {
                 "sourceTag": "type:api",
                 "onlyDependOnLibsWithTags": [
                   "scope:shared",

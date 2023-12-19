@@ -1,5 +1,7 @@
+import { UserId } from '@libs/shared/models';
+
 export interface IBase {
-  id: number;
+  id: UserId;
   createdDate: Date;
   updatedDate: Date;
 }

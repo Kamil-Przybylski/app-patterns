@@ -1,9 +1,0 @@
-{
-  "name": "@nx-angular-nest/shared/tokens",
-  "version": "0.0.1",
-  "dependencies": {
-    "jwt-decode": "^4.0.0"
-  },
-  "type": "commonjs",
-  "main": "./index.cjs"
-}

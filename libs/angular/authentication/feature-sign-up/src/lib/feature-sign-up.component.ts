@@ -6,17 +6,31 @@ import { AuthenticationFacade } from '@libs/ng/authentication/data-access';
 import { RouterModule } from '@angular/router';
 import { SignUpFormComponent } from '@libs/ng/authentication/ui';
 import { ISignUpFormPayload } from '@libs/ng/authentication/models';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'authentication-feature-sign-up',
   standalone: true,
-  imports: [CommonModule, RouterModule, SignUpFormComponent, MatCardModule, MatButtonModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    SignUpFormComponent,
+    MatCardModule,
+    MatButtonModule,
+    MatProgressBarModule,
+  ],
   providers: [AuthenticationFacade],
   templateUrl: './feature-sign-up.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FeatureSignUpComponent {
   #authenticationFacade = inject(AuthenticationFacade);
+
+  readonly isLoading = toSignal(this.#authenticationFacade.isSignInLoading$, {
+    initialValue: false,
+  });
+  readonly errorMessage = toSignal(this.#authenticationFacade.errorMessage$);
 
   public handleSubmit(payload: ISignUpFormPayload) {
     this.#authenticationFacade.signUp(payload);

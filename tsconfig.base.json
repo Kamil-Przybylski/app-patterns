@@ -37,8 +37,10 @@
       "@libs/ng/core/config": ["libs/angular/core/config/src/index.ts"],
       "@libs/ng/core/store": ["libs/angular/core/store/src/index.ts"],
       "@libs/ng/shared/local-storage": ["libs/angular/shared/local-storage/src/index.ts"],
+      "@libs/ng/shared/shared/ui": ["libs/angular/shared/ui/src/index.ts"],
       "@libs/ng/shared/utils": ["libs/angular/shared/utils/src/index.ts"],
       "@libs/shared/communication": ["libs/shared/communication/src/index.ts"],
+      "@libs/shared/models": ["libs/shared/models/src/index.ts"],
       "@libs/shared/tokens": ["libs/shared/tokens/src/index.ts"]
     }
   },

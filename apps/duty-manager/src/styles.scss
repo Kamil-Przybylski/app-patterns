@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+// FIX for mat-button outline conflict
+@layer base {
+  *,
+  ::before,
+  ::after {
+    border-style: none;
+  }
+}
+
 /* You can add global styles to this file, and also import other style files */
 
 html,
