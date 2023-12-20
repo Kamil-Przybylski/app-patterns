@@ -8,6 +8,7 @@ import { SignUpFormComponent } from '@libs/ng/authentication/ui';
 import { ISignUpFormPayload } from '@libs/ng/authentication/models';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { ISignUpDto } from '@libs/shared/communication';
 
 @Component({
   selector: 'authentication-feature-sign-up',
@@ -32,7 +33,12 @@ export class FeatureSignUpComponent {
   });
   readonly errorMessage = toSignal(this.#authenticationFacade.errorMessage$);
 
-  public handleSubmit(payload: ISignUpFormPayload) {
+  public handleSubmit(formPayload: ISignUpFormPayload) {
+    const payload: ISignUpDto = {
+      username: formPayload.username,
+      email: formPayload.email,
+      password: formPayload.passwords.password,
+    };
     this.#authenticationFacade.signUp(payload);
   }
 }

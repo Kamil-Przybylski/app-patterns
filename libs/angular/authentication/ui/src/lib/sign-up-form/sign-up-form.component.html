@@ -4,16 +4,18 @@
   }
 
   <!-- Username -->
-  <mat-form-field>
-    <input matInput required formControlName="username" placeholder="Username" type="text" />
+  <mat-form-field appearance="outline">
+    <mat-label>Username</mat-label>
+    <input matInput required formControlName="username" type="text" />
     @if (usernameControl?.errors?.['required']) {
     <mat-error>Username is required!</mat-error>
     }
   </mat-form-field>
 
   <!-- Email -->
-  <mat-form-field>
-    <input matInput required formControlName="email" placeholder="Email" type="email" />
+  <mat-form-field appearance="outline">
+    <mat-label>Email</mat-label>
+    <input matInput required formControlName="email" type="email" />
     @if (emailControl?.errors?.['required']) {
     <mat-error>Email is required!</mat-error>
     } @if (emailControl?.errors?.['email']) {
@@ -22,24 +24,22 @@
   </mat-form-field>
 
   <!-- Password -->
-  <mat-form-field>
-    <input matInput required formControlName="password" placeholder="Password" type="password" />
-    @if (passwordControl?.errors?.['required']) {
-    <mat-error>Password is required!</mat-error>
-    }
-  </mat-form-field>
+  <ng-container formGroupName="passwords">
+    <mat-form-field appearance="outline">
+      <mat-label>Password</mat-label>
+      <input matInput required formControlName="password" type="password" />
+      @if (passwordControl?.errors?.['required']) {
+      <mat-error>Password is required!</mat-error>
+      }
+    </mat-form-field>
 
-  <!-- Repeat Password -->
-  <mat-form-field>
-    <input
-      matInput
-      required
-      formControlName="repeatPassword"
-      placeholder="Repeat password"
-      type="password"
-    />
-    @if (repeatPasswordControl?.errors?.['required']) {
-    <mat-error>Repeat password is required!</mat-error>
-    }
-  </mat-form-field>
+    <!-- Repeat Password -->
+    <mat-form-field appearance="outline">
+      <mat-label>Repeat password</mat-label>
+      <input matInput required formControlName="repeatPassword" type="password" />
+      @if (repeatPasswordControl?.errors?.['notEqual']) {
+      <mat-error>Password must be the same!</mat-error>
+      }
+    </mat-form-field>
+  </ng-container>
 </form>

@@ -10,6 +10,7 @@ import {
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import {
+  AbstractControl,
   FormsModule,
   NonNullableFormBuilder,
   ReactiveFormsModule,
@@ -19,6 +20,21 @@ import { JsonPipe } from '@angular/common';
 import { ISignUpFormPayload } from '@libs/ng/authentication/models';
 import { TFormGroup } from '@libs/ng/shared/utils';
 import { UiNotificationComponent } from '@libs/ng/shared/shared/ui';
+
+const passwordConfirming = (
+  c: AbstractControl<ISignUpFormPayload['passwords']>,
+): { invalid: boolean } | null => {
+  const cPassword = c.get('password');
+  const cRepeatPassword = c.get('repeatPassword');
+  if (!cPassword || !cRepeatPassword) return null;
+
+  if (cPassword.value !== cRepeatPassword.value) {
+    cRepeatPassword?.setErrors({ notEqual: true });
+    return { invalid: true };
+  }
+  cRepeatPassword?.setErrors(null);
+  return null;
+};
 
 @Component({
   selector: 'authentication-ui-sign-up-form',
@@ -46,10 +62,15 @@ export class SignUpFormComponent {
   readonly #cd = inject(ChangeDetectorRef);
 
   readonly loginForm = this.#fb.group<TFormGroup<ISignUpFormPayload>>({
-    username: this.#fb.control('test', [Validators.required]),
-    email: this.#fb.control('test@test.pl', [Validators.required, Validators.email]),
-    password: this.#fb.control('test', [Validators.required]),
-    repeatPassword: this.#fb.control('test', [Validators.required]),
+    username: this.#fb.control('', [Validators.required]),
+    email: this.#fb.control('', [Validators.required, Validators.email]),
+    passwords: this.#fb.group(
+      {
+        password: this.#fb.control('', [Validators.required]),
+        repeatPassword: this.#fb.control(''),
+      },
+      { validators: passwordConfirming },
+    ),
   });
 
   get usernameControl() {
@@ -59,10 +80,10 @@ export class SignUpFormComponent {
     return this.loginForm.get('email');
   }
   get passwordControl() {
-    return this.loginForm.get('password');
+    return this.loginForm.get('passwords.password');
   }
   get repeatPasswordControl() {
-    return this.loginForm.get('repeatPassword');
+    return this.loginForm.get('passwords.repeatPassword');
   }
 
   @Output() readonly bySubmit = new EventEmitter<ISignUpFormPayload>();

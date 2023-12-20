@@ -49,8 +49,8 @@ export class SignInFormComponent {
   readonly #cd = inject(ChangeDetectorRef);
 
   readonly loginForm = this.#fb.group<TFormGroup<ISignInFormPayload>>({
-    email: this.#fb.control('test@test.pl', [Validators.required, Validators.email]),
-    password: this.#fb.control('testt', [Validators.required]),
+    email: this.#fb.control('', [Validators.required, Validators.email]),
+    password: this.#fb.control('', [Validators.required]),
   });
 
   get emailControl() {
