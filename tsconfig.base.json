@@ -24,6 +24,9 @@
       "@libs/ng/authentication/data-access": [
         "libs/angular/authentication/data-access/src/index.ts"
       ],
+      "@libs/ng/authentication/stubs-data-access": [
+        "libs/angular/authentication/data-access/src/tests"
+      ],
       "@libs/ng/authentication/feature-sign-in": [
         "libs/angular/authentication/feature-sign-in/src/index.ts"
       ],
@@ -38,6 +41,7 @@
       "@libs/ng/core/store": ["libs/angular/core/store/src/index.ts"],
       "@libs/ng/shared/local-storage": ["libs/angular/shared/local-storage/src/index.ts"],
       "@libs/ng/shared/shared/ui": ["libs/angular/shared/ui/src/index.ts"],
+      "@libs/ng/shared/shared/stubs-ui": ["libs/angular/shared/ui/src/tests"],
       "@libs/ng/shared/utils": ["libs/angular/shared/utils/src/index.ts"],
       "@libs/shared/communication": ["libs/shared/communication/src/index.ts"],
       "@libs/shared/models": ["libs/shared/models/src/index.ts"],

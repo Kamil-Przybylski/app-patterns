@@ -56,7 +56,7 @@ export class SignUpFormComponent {
     if (value) this.loginForm.disable();
     else this.loginForm.enable();
   }
-  @Input() error?: string;
+  @Input() errorMessage?: string;
 
   readonly #fb = inject(NonNullableFormBuilder);
   readonly #cd = inject(ChangeDetectorRef);

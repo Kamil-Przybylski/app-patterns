@@ -25,14 +25,14 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FeatureSignInComponent {
-  readonly #authenticationFacade = inject(AuthenticationFacade);
+  readonly authenticationFacade = inject(AuthenticationFacade);
 
-  readonly isLoading = toSignal(this.#authenticationFacade.isSignInLoading$, {
+  readonly isLoading = toSignal(this.authenticationFacade.isSignInLoading$, {
     initialValue: false,
   });
-  readonly errorMessage = toSignal(this.#authenticationFacade.errorMessage$);
+  readonly errorMessage = toSignal(this.authenticationFacade.errorMessage$);
 
   handleSubmit(payload: ISignInFormPayload) {
-    this.#authenticationFacade.signIn(payload);
+    this.authenticationFacade.signIn(payload);
   }
 }

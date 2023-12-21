@@ -12,6 +12,7 @@
     "nrwl",
     "Serializability",
     "tailwindcss",
+    "testid",
     "timestamptz",
     "typeorm"
   ],

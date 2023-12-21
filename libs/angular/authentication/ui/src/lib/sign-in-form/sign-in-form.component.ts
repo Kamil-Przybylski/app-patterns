@@ -16,7 +16,6 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { JsonPipe } from '@angular/common';
 import { ISignInFormPayload } from '@libs/ng/authentication/models';
 import { TFormGroup } from '@libs/ng/shared/utils';
 import { UiNotificationComponent } from '@libs/ng/shared/shared/ui';
@@ -25,7 +24,6 @@ import { UiNotificationComponent } from '@libs/ng/shared/shared/ui';
   selector: 'authentication-ui-sign-in-form',
   standalone: true,
   imports: [
-    JsonPipe,
     FormsModule,
     ReactiveFormsModule,
     MatFormFieldModule,
@@ -42,7 +40,7 @@ export class SignInFormComponent {
     if (value) this.loginForm.disable();
     else this.loginForm.enable();
   }
-  @Input() error?: string;
+  @Input() errorMessage?: string;
   @Output() readonly bySubmit = new EventEmitter<ISignInFormPayload>();
 
   readonly #fb = inject(NonNullableFormBuilder);

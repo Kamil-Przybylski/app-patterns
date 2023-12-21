@@ -5,7 +5,7 @@
   <mat-card-content class="t-mb-4">
     <authentication-ui-sign-up-form
       #formRef
-      [error]="errorMessage()"
+      [errorMessage]="errorMessage()"
       [disabled]="isLoading()"
       (bySubmit)="handleSubmit($event)"
     />

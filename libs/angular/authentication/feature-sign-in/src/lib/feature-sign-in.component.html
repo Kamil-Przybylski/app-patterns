@@ -5,13 +5,19 @@
   <mat-card-content class="t-mb-4">
     <authentication-ui-sign-in-form
       #formRef
-      [error]="errorMessage()"
+      [errorMessage]="errorMessage()"
       [disabled]="isLoading()"
       (bySubmit)="handleSubmit($event)"
     />
   </mat-card-content>
   <mat-card-actions align="end">
-    <button mat-flat-button color="primary" [disabled]="isLoading()" (click)="formRef.submit()">
+    <button
+      mat-flat-button
+      color="primary"
+      data-tid="submit-btn"
+      [disabled]="isLoading()"
+      (click)="formRef.submit()"
+    >
       Submit
     </button>
     <button mat-button routerLink="/auth/sing-up">Sign up</button>

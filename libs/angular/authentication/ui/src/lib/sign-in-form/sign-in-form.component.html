@@ -1,21 +1,23 @@
 <form class="t-flex t-flex-col t-gap-2" [formGroup]="loginForm">
-  @if (error) {
-  <ui-notification class="t-mb-4" icon="error_outline">{{ error }}</ui-notification>
+  @if (errorMessage) {
+  <ui-notification class="t-mb-4" icon="error_outline" data-tid="notification">{{
+    errorMessage
+  }}</ui-notification>
   }
   <mat-form-field appearance="outline">
     <mat-label>Email</mat-label>
     <input matInput required formControlName="email" type="email" />
     @if (emailControl?.errors?.['required']) {
-    <mat-error>Email is required!</mat-error>
+    <mat-error data-tid="error-message">Email is required!</mat-error>
     } @if (emailControl?.errors?.['email']) {
-    <mat-error>Wrong email format!</mat-error>
+    <mat-error data-tid="error-message">Wrong email format!</mat-error>
     }
   </mat-form-field>
   <mat-form-field appearance="outline">
     <mat-label>Password</mat-label>
     <input matInput required formControlName="password" type="password" />
     @if (passwordControl?.errors?.['required']) {
-    <mat-error>Password is required!</mat-error>
+    <mat-error data-tid="error-message">Password is required!</mat-error>
     }
   </mat-form-field>
 </form>
