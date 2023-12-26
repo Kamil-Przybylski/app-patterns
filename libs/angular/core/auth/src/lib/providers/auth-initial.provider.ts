@@ -4,9 +4,9 @@ import {
   inject,
   makeEnvironmentProviders,
 } from '@angular/core';
+import { LocalStorage } from '@libs/ng/shared/local-storage';
 import { Store } from '@ngrx/store';
 import { authActions } from '../store/auth.actions';
-import { LocalStorage } from '@libs/ng/shared/local-storage';
 
 const authInitializerProviderFactory = () => {
   const store = inject(Store);

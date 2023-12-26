@@ -1,14 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { AuthenticationFacade } from '@libs/ng/authentication/data-access';
-import { RouterModule } from '@angular/router';
-import { SignUpFormComponent } from '@libs/ng/authentication/ui';
-import { ISignUpFormPayload } from '@libs/ng/authentication/models';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { ISignUpDto } from '@libs/shared/communication';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { RouterModule } from '@angular/router';
+import { AuthenticationFacade } from '@libs/ng/authentication/data-access';
+import { ISignUpFormPayload } from '@libs/ng/authentication/models';
+import { SignUpFormComponent } from '@libs/ng/authentication/ui';
+import { ISignUpReqDto } from '@libs/shared/communication';
 
 @Component({
   selector: 'authentication-feature-sign-up',
@@ -34,7 +34,7 @@ export class FeatureSignUpComponent {
   readonly errorMessage = toSignal(this.#authenticationFacade.errorMessage$);
 
   public handleSubmit(formPayload: ISignUpFormPayload) {
-    const payload: ISignUpDto = {
+    const payload: ISignUpReqDto = {
       username: formPayload.username,
       email: formPayload.email,
       password: formPayload.passwords.password,

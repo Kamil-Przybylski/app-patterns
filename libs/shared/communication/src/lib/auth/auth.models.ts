@@ -1,38 +1,25 @@
-import { UserId } from '@libs/shared/models';
+import { IUserBaseEntity, IUserEntity, JwtToken } from '@libs/shared/models';
 
-export interface IUserDto {
-  id: UserId;
-  username: string;
-  email: string;
-}
+export interface IUserResDto extends IUserEntity {}
 
-export interface IAccessTokenDto {
-  sub: number;
-  exp?: number;
-  iat?: number;
-}
-
-export interface ISignUpDto {
-  username: string;
-  email: string;
+export interface ISignUpReqDto extends IUserBaseEntity {
   password: string;
 }
 
-export interface ISignInDto {
-  email: string;
+export interface ISignInReqDto extends Omit<IUserBaseEntity, 'username'> {
   password: string;
 }
 
-export interface IRefreshTokenRequestDto {
-  refreshToken: string;
+export interface ISignInResDto {
+  user: IUserResDto;
+  accessToken: JwtToken;
+  refreshToken: JwtToken;
 }
 
-export interface IRefreshTokenResponseDto {
-  accessToken: string;
+export interface IRefreshTokenReqDto {
+  refreshToken: JwtToken;
 }
 
-export interface ISignInResponseDto {
-  user: IUserDto;
-  accessToken: string;
-  refreshToken: string;
+export interface IRefreshTokenResDto {
+  accessToken: JwtToken;
 }

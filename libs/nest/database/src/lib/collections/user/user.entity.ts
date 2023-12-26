@@ -1,9 +1,10 @@
-import { Entity, Column } from 'typeorm';
-import { IUser } from './user.models';
+import { UserId } from '@libs/shared/models';
+import { Column, Entity } from 'typeorm';
 import { BaseEntity } from '../base/base.entity';
+import { IUserDb } from './user.models';
 
 @Entity()
-export class UserEntity extends BaseEntity implements IUser {
+export class UserEntity extends BaseEntity<UserId> implements IUserDb {
   @Column({ type: 'varchar', length: 100, unique: true })
   public email: string;
 

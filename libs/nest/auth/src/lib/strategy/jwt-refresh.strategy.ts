@@ -1,12 +1,11 @@
-import { ExtractJwt, Strategy } from 'passport-jwt';
-import { PassportStrategy } from '@nestjs/passport';
-import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { IJwtPayload } from '../models/auth.models';
-import { IUser, UsersService } from '@libs/nest/database';
-import { StrategyKeyEnum } from '../models/strategy.models';
 import { ConfigRootService } from '@libs/nest/config';
+import { IUserDb, UsersService } from '@libs/nest/database';
+import { ITokenPayloadDto } from '@libs/shared/tokens';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { PassportStrategy } from '@nestjs/passport';
+import { ExtractJwt, Strategy } from 'passport-jwt';
 import { IConfig } from '../config/config.model';
-import { UserId } from '@libs/shared/models';
+import { StrategyKeyEnum } from '../models/strategy.models';
 
 @Injectable()
 export class JwtRefreshStrategy extends PassportStrategy(Strategy, StrategyKeyEnum.JWT_REFRESH) {
@@ -19,8 +18,8 @@ export class JwtRefreshStrategy extends PassportStrategy(Strategy, StrategyKeyEn
     });
   }
 
-  async validate(payload: IJwtPayload): Promise<IUser> {
-    const user = await this.usersService.findOne({ id: payload.sub as UserId });
+  async validate(payload: ITokenPayloadDto): Promise<IUserDb> {
+    const user = await this.usersService.findOne({ id: payload.sub });
     if (!user) throw new UnauthorizedException();
     return user;
   }

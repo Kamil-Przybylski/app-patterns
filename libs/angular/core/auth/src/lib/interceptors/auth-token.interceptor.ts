@@ -1,11 +1,14 @@
-import { InjectionToken, inject } from '@angular/core';
 import {
-  HttpRequest,
-  HttpEvent,
   HttpErrorResponse,
-  HttpInterceptorFn,
+  HttpEvent,
   HttpHandlerFn,
+  HttpInterceptorFn,
+  HttpRequest,
 } from '@angular/common/http';
+import { InjectionToken, inject } from '@angular/core';
+import { LocalStorage } from '@libs/ng/shared/local-storage';
+import { Actions, ofType } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
 import {
   BehaviorSubject,
   Observable,
@@ -18,10 +21,7 @@ import {
   throwError,
 } from 'rxjs';
 import { AuthService } from '../services/auth.service';
-import { Store } from '@ngrx/store';
 import { authActions } from '../store';
-import { Actions, ofType } from '@ngrx/effects';
-import { LocalStorage } from '@libs/ng/shared/local-storage';
 
 export const IS_REFRESHING = new InjectionToken<BehaviorSubject<boolean>>('IS_REFRESHING', {
   factory: () => new BehaviorSubject(false),
@@ -30,29 +30,39 @@ export const IS_REFRESHING = new InjectionToken<BehaviorSubject<boolean>>('IS_RE
 const handleReqAgain = (
   request: HttpRequest<unknown>,
   next: HttpHandlerFn,
+  isAuthPath: boolean,
 ): Observable<HttpEvent<unknown>> => {
   const token = LocalStorage.getItem('accessToken');
-  request = request.clone({
-    setHeaders: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  if (token && !isAuthPath) {
+    request = request.clone({
+      setHeaders: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  }
   return next(request);
 };
 
-export const authRefreshInterceptor: HttpInterceptorFn = (req, next) => {
+export const authTokenInterceptor: HttpInterceptorFn = (req, next) => {
   const store = inject(Store);
   const actions = inject(Actions);
   const authService = inject(AuthService);
   const isRefreshing$ = inject(IS_REFRESHING);
 
   const isAuthPath = authService.isAuthPath(req.url);
+  const refreshToken = LocalStorage.getItem('refreshToken');
+
+  if (!refreshToken && !isAuthPath) {
+    store.dispatch(authActions.logOut());
+    return throwError(() => new Error('No refreshToken token!'));
+  }
+
   return isRefreshing$.pipe(
-    filter((isRefreshing) => !isRefreshing || !isAuthPath),
+    filter((isRefreshing) => !isRefreshing || isAuthPath),
     take(1),
-    concatMap(() => handleReqAgain(req, next)),
+    concatMap(() => handleReqAgain(req, next, isAuthPath)),
     catchError((err) => {
-      if (!isAuthPath || !(err instanceof HttpErrorResponse) || err.status !== 401)
+      if (isAuthPath || !(err instanceof HttpErrorResponse) || err.status !== 401)
         return throwError(() => err);
 
       isRefreshing$.next(true);
@@ -61,7 +71,7 @@ export const authRefreshInterceptor: HttpInterceptorFn = (req, next) => {
         ofType(authActions.refreshTokenSuccess),
         take(1),
         tap(() => isRefreshing$.next(false)),
-        exhaustMap(() => handleReqAgain(req, next)),
+        exhaustMap(() => handleReqAgain(req, next, isAuthPath)),
         catchError((err) => {
           isRefreshing$.next(false);
           store.dispatch(authActions.logOut());

@@ -1,20 +1,7 @@
-import { IBase } from '../base/base.model';
+import { IUserEntity } from '@libs/shared/models';
 
-export interface IUser extends IBase {
-  username: string;
-  email: string;
+export interface IUserDb extends IUserEntity {
   hashedPassword: string;
   isActive: boolean;
   hashedRefreshToken: string | null;
-}
-
-export interface ISignUpUser {
-  username: string;
-  email: string;
-  password: string;
-}
-
-export interface ISignInUser {
-  email: string;
-  password: string;
 }

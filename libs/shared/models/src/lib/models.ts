@@ -1,4 +1,3 @@
-interface Flavoring<FlavorT> {
-  _type: FlavorT;
-}
-export type Flavor<T, FlavorT> = T & Flavoring<FlavorT>;
+declare const type: unique symbol;
+
+export type Flavor<T, FlavorT> = T & { [type]: FlavorT };

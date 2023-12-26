@@ -1,24 +1,15 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FeatureSignInComponent } from './feature-sign-in.component';
-import { EventEmitter, Input, NO_ERRORS_SCHEMA, Output } from '@angular/core';
-import { Component } from '@angular/core';
-import { AuthenticationFacade } from '@libs/ng/authentication/data-access';
-import { StubAuthenticationFacade } from '@libs/ng/authentication/stubs-data-access';
-import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
+import { AuthenticationFacade } from '@libs/ng/authentication/data-access';
+import { ISignInFormPayload } from '@libs/ng/authentication/models';
+import { SignInFormComponent } from '@libs/ng/authentication/ui';
+import { FeatureSignInComponent } from './feature-sign-in.component';
 
-@Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
-  selector: 'authentication-ui-sign-in-form',
-  standalone: true,
-  template: '',
-})
-export class StubSignInFormComponent {
-  @Input() disabled?: boolean;
-  @Input() errorMessage?: boolean;
-  @Output() readonly bySubmit = new EventEmitter();
-  submit() {}
-}
+jest.mock('@libs/ng/authentication/data-access');
+jest.mock('@libs/ng/authentication/ui');
 
 describe('FeatureSignInComponent', () => {
   let component: FeatureSignInComponent;
@@ -28,8 +19,8 @@ describe('FeatureSignInComponent', () => {
   beforeEach(async () => {
     TestBed.overrideComponent(FeatureSignInComponent, {
       set: {
-        imports: [StubSignInFormComponent, RouterTestingModule],
-        providers: [{ provide: AuthenticationFacade, useClass: StubAuthenticationFacade }],
+        imports: [SignInFormComponent, RouterTestingModule],
+        providers: [AuthenticationFacade, provideNoopAnimations()],
         schemas: [NO_ERRORS_SCHEMA],
       },
     });
@@ -51,17 +42,21 @@ describe('FeatureSignInComponent', () => {
   });
 
   it('should submit the form', () => {
-    const formComponentDe = fixture.debugElement.query(By.directive(StubSignInFormComponent));
-    const formComponent: StubSignInFormComponent = formComponentDe.componentInstance;
-    jest.spyOn(formComponent, 'submit');
+    const payload: ISignInFormPayload = {
+      email: 'em',
+      password: 'pass',
+    };
+    const formComponentDe = fixture.debugElement.query(By.directive(SignInFormComponent));
+    const formComponent: SignInFormComponent = formComponentDe.componentInstance;
+    jest.spyOn(formComponent, 'submit').mockImplementation(() => null);
     jest.spyOn(authFacade, 'signIn');
 
     const submitBtn = fixture.debugElement.query(By.css('[data-tid="submit-btn"]'));
     submitBtn.nativeElement.click();
-    formComponentDe.triggerEventHandler('bySubmit', { email: 'em', password: 'pass' });
+    formComponentDe.triggerEventHandler('bySubmit', payload);
 
     expect(formComponent.submit).toHaveBeenCalledTimes(1);
     expect(authFacade.signIn).toHaveBeenCalledTimes(1);
-    expect(authFacade.signIn).toHaveBeenCalledWith({ email: 'em', password: 'pass' });
+    expect(authFacade.signIn).toHaveBeenCalledWith(payload);
   });
 });

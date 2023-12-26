@@ -1,6 +1,6 @@
-export type LocalStorageKeys = 'accessToken' | 'refreshToken';
+import { JwtToken } from '@libs/shared/models';
 
 export interface ILocalStorage {
-  accessToken: string;
-  refreshToken: string;
+  accessToken: JwtToken;
+  refreshToken: JwtToken;
 }

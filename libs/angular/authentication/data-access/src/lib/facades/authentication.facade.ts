@@ -1,13 +1,13 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { authActions } from '@libs/ng/core/auth';
+import { CallStatusEnum, CallStatusState, StoreUtils } from '@libs/ng/shared/utils';
+import { AuthRoutesEnum, ISignInReqDto, ISignUpReqDto } from '@libs/shared/communication';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { AuthenticationService } from '../services/authentication.service';
 import { Store } from '@ngrx/store';
 import { Observable, switchMap } from 'rxjs';
-import { AuthRoutesEnum, ISignInDto, ISignUpDto } from '@libs/shared/communication';
-import { HttpErrorResponse } from '@angular/common/http';
-import { authActions } from '@libs/ng/core/auth';
-import { Router } from '@angular/router';
-import { CallStatusEnum, CallStatusState, StoreUtils } from '@libs/ng/shared/utils';
+import { AuthenticationService } from '../services';
 
 interface AuthenticationState {
   callStatus: CallStatusState;
@@ -27,7 +27,7 @@ export class AuthenticationFacade extends ComponentStore<AuthenticationState> {
     super(INITIAL_STATE);
   }
 
-  readonly signIn = this.effect((payload$: Observable<ISignInDto>) =>
+  readonly signIn = this.effect((payload$: Observable<ISignInReqDto>) =>
     payload$.pipe(
       switchMap((payload) => {
         this.patchState({ callStatus: CallStatusEnum.LOADING });
@@ -46,7 +46,7 @@ export class AuthenticationFacade extends ComponentStore<AuthenticationState> {
     ),
   );
 
-  readonly signUp = this.effect((payload$: Observable<ISignUpDto>) =>
+  readonly signUp = this.effect((payload$: Observable<ISignUpReqDto>) =>
     payload$.pipe(
       switchMap((payload) => {
         this.patchState({ callStatus: CallStatusEnum.LOADING });

@@ -1,7 +1,8 @@
 import { of } from 'rxjs';
 
-export class StubAuthenticationFacade {
+export class AuthenticationFacade {
   isSignInLoading$ = of(false);
   errorMessage$ = of(undefined);
   signIn() {}
+  signUp() {}
 }

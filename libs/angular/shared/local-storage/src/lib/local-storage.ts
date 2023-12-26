@@ -1,15 +1,15 @@
-import { ILocalStorage, LocalStorageKeys } from './local-storage.models';
+import { ILocalStorage } from './local-storage.models';
 
 export abstract class LocalStorage {
-  static getItem<T extends LocalStorageKeys>(key: T): ILocalStorage[T] | null {
-    return localStorage.getItem(key) as ILocalStorage[T];
+  static getItem<T extends keyof ILocalStorage>(key: T): ILocalStorage[T] | null {
+    return JSON.parse(localStorage.getItem(key) as ILocalStorage[T]);
   }
 
-  static setItem<T extends LocalStorageKeys>(key: T, data: ILocalStorage[T]): void {
-    localStorage.setItem(key, data);
+  static setItem<T extends keyof ILocalStorage>(key: T, data: ILocalStorage[T]): void {
+    localStorage.setItem(key, JSON.stringify(data));
   }
 
-  static removeItem<T extends LocalStorageKeys>(key: T): void {
+  static removeItem<T extends keyof ILocalStorage>(key: T): void {
     localStorage.removeItem(key);
   }
 }

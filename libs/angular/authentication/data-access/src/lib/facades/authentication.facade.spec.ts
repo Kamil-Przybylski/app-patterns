@@ -1,26 +1,29 @@
-import { delay, of, skip, take, throwError, toArray } from 'rxjs';
-import { AuthenticationFacade } from './authentication.facade';
 import { TestBed } from '@angular/core/testing';
-import { AuthenticationService } from '../services/authentication.service';
+import { Router } from '@angular/router';
+import { authActions } from '@libs/ng/core/auth';
+import { CallStatusEnum } from '@libs/ng/shared/utils';
 import {
   AuthRoutesEnum,
-  ISignInDto,
-  ISignInResponseDto,
-  ISignUpDto,
-  IUserDto,
+  ISignInReqDto,
+  ISignInResDto,
+  ISignUpReqDto,
+  IUserResDto,
 } from '@libs/shared/communication';
-import { provideMockStore } from '@ngrx/store/testing';
-import { CallStatusEnum } from '@libs/ng/shared/utils';
+import { JwtToken } from '@libs/shared/models';
 import { Store } from '@ngrx/store';
-import { authActions } from '@libs/ng/core/auth';
-import { Router } from '@angular/router';
-import { StubAuthenticationService } from '../../tests';
+import { provideMockStore } from '@ngrx/store/testing';
+import { delay, of, skip, take, throwError, toArray } from 'rxjs';
+import { AuthenticationService as StubService } from '../../__mocks__';
+import { AuthenticationService } from './../services';
+import { AuthenticationFacade } from './authentication.facade';
 
-const getPayload = (): ISignInDto => ({ email: 'test', password: 'pass' });
-const getResponse = (): ISignInResponseDto => ({
-  user: {} as IUserDto,
-  accessToken: '',
-  refreshToken: '',
+jest.mock('./../services');
+
+const getPayload = (): ISignInReqDto => ({ email: 'test', password: 'pass' });
+const getResponse = (): ISignInResDto => ({
+  user: {} as IUserResDto,
+  accessToken: '' as JwtToken,
+  refreshToken: '' as JwtToken,
 });
 
 describe('AuthenticationFacade', () => {
@@ -34,7 +37,7 @@ describe('AuthenticationFacade', () => {
       providers: [
         AuthenticationFacade,
         provideMockStore({ initialState: {} }),
-        { provide: AuthenticationService, useClass: StubAuthenticationService },
+        { provide: AuthenticationService, useClass: StubService },
       ],
     });
     authFacade = TestBed.inject(AuthenticationFacade);
@@ -54,7 +57,11 @@ describe('AuthenticationFacade', () => {
     it('should correct signIn() process', (done) => {
       // Given
       const payload = getPayload();
-      const response = { user: {} as IUserDto, accessToken: '', refreshToken: '' };
+      const response = {
+        user: {} as IUserResDto,
+        accessToken: '' as JwtToken,
+        refreshToken: '' as JwtToken,
+      };
       jest.spyOn(authService, 'signIn').mockReturnValue(of(response));
       jest.spyOn(store, 'dispatch');
       jest.spyOn(router, 'navigate');
@@ -77,8 +84,8 @@ describe('AuthenticationFacade', () => {
 
     it('should correct signUp() process', (done) => {
       // Given
-      const payload: ISignUpDto = { username: 'user', password: 'pass', email: 'em' };
-      jest.spyOn(authService, 'signUp').mockReturnValue(of({} as IUserDto));
+      const payload: ISignUpReqDto = { username: 'user', password: 'pass', email: 'em' };
+      jest.spyOn(authService, 'signUp').mockReturnValue(of({} as IUserResDto));
       jest.spyOn(router, 'navigate');
 
       // Then - delay time for tapResponse end the script

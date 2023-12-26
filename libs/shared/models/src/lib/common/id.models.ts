@@ -1,3 +1,3 @@
-import { Flavor } from './models';
+import { Flavor } from '../models';
 
 export type UserId = Flavor<number, 'User'>;

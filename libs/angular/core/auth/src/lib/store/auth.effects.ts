@@ -1,11 +1,11 @@
 import { Injectable, inject } from '@angular/core';
+import { LocalStorage } from '@libs/ng/shared/local-storage';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
-import { authActions } from './auth.actions';
+import { Store } from '@ngrx/store';
 import { catchError, exhaustMap, map, of, tap } from 'rxjs';
 import { AuthService } from '../services/auth.service';
+import { authActions } from './auth.actions';
 import { authFeature } from './auth.feature';
-import { Store } from '@ngrx/store';
-import { LocalStorage } from '@libs/ng/shared/local-storage';
 
 @Injectable()
 export class AuthEffects {

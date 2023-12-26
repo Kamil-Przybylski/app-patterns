@@ -1,3 +1,3 @@
-import { IUserDto } from '@libs/shared/communication';
+import { IUserEntity } from '@libs/shared/models';
 
-export interface IUser extends IUserDto {}
+export interface IUser extends IUserEntity {}

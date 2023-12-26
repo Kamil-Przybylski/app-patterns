@@ -8,16 +8,18 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 
-import { AuthRoutesEnum, IRefreshTokenResponseDto } from '@libs/shared/communication';
 import {
   AuthService,
   GetUser,
   JwtRefreshGuard,
-  SignInResponseDto,
-  UserResponseDto,
+  RefreshTokenReqDto,
+  SignInReqDto,
+  SignInResDto,
+  SingUpDto,
+  UserResDto,
 } from '@libs/nest/auth';
-import { RefreshTokenRequestDto, SignInDto, SingUpDto } from './authentication.dto';
-import { IUser } from '@libs/nest/database';
+import { IUserDb } from '@libs/nest/database';
+import { AuthRoutesEnum, IRefreshTokenResDto } from '@libs/shared/communication';
 
 @Controller(AuthRoutesEnum.AUTH)
 export class AuthenticationController {
@@ -25,25 +27,25 @@ export class AuthenticationController {
 
   @Post(AuthRoutesEnum.SING_UP)
   @UseInterceptors(ClassSerializerInterceptor)
-  public async singUp(@Body() signUpDto: SingUpDto): Promise<UserResponseDto> {
+  public async singUp(@Body() signUpDto: SingUpDto): Promise<UserResDto> {
     const user = await this.authService.signUp(signUpDto);
-    return new UserResponseDto(user);
+    return new UserResDto(user);
   }
 
   @Post(AuthRoutesEnum.SING_IN)
   @UseInterceptors(ClassSerializerInterceptor)
-  public async singIn(@Body() signInDto: SignInDto): Promise<SignInResponseDto> {
+  public async singIn(@Body() signInDto: SignInReqDto): Promise<SignInResDto> {
     const payload = await this.authService.signIn(signInDto);
-    return new SignInResponseDto(payload);
+    return new SignInResDto(payload);
   }
 
   @Post(AuthRoutesEnum.REFRESH_TOKEN)
   @UseGuards(JwtRefreshGuard)
   @UseInterceptors(ClassSerializerInterceptor)
   public async getRefreshToken(
-    @GetUser() user: IUser,
-    @Body() refreshTokenDto: RefreshTokenRequestDto,
-  ): Promise<IRefreshTokenResponseDto> {
+    @GetUser() user: IUserDb,
+    @Body() refreshTokenDto: RefreshTokenReqDto,
+  ): Promise<IRefreshTokenResDto> {
     if (!refreshTokenDto) throw new UnauthorizedException();
     const payload = await this.authService.getRefreshToken(user, refreshTokenDto.refreshToken);
     await new Promise((resolve) => setTimeout(resolve, 2000)); // TEMP: for test purposes

@@ -1,10 +1,9 @@
+import { IBaseEntity } from '@libs/shared/models';
 import { CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
-import { IBase } from './base.model';
-import { UserId } from '@libs/shared/models';
 
-export class BaseEntity implements IBase {
+export class BaseEntity<ID> implements IBaseEntity<ID> {
   @PrimaryGeneratedColumn()
-  public id: UserId;
+  public id: ID;
 
   @CreateDateColumn()
   public createdDate: Date;

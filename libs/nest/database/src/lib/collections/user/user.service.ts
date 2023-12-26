@@ -1,3 +1,5 @@
+import { ISignInReqDto, ISignUpReqDto } from '@libs/shared/communication';
+import { UserId } from '@libs/shared/models';
 import {
   BadRequestException,
   ConflictException,
@@ -6,11 +8,10 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import * as bcrypt from 'bcrypt';
 import { FindOneOptions, QueryFailedError, Repository, UpdateResult } from 'typeorm';
 import { UserEntity } from './user.entity';
-import { ISignInUser, ISignUpUser, IUser } from './user.models';
-import * as bcrypt from 'bcrypt';
-import { UserId } from '@libs/shared/models';
+import { IUserDb } from './user.models';
 
 @Injectable()
 export class UsersService {
@@ -19,7 +20,7 @@ export class UsersService {
     private usersRepository: Repository<UserEntity>,
   ) {}
 
-  async signUp(dto: ISignUpUser): Promise<IUser> {
+  async signUp(dto: ISignUpReqDto): Promise<IUserDb> {
     const user = new UserEntity();
     const salt = await bcrypt.genSalt();
 
@@ -38,7 +39,7 @@ export class UsersService {
     }
   }
 
-  async signIn(dto: ISignInUser): Promise<IUser> {
+  async signIn(dto: ISignInReqDto): Promise<IUserDb> {
     const user = await this.usersRepository.findOne({
       where: { email: dto.email },
     });
@@ -50,7 +51,11 @@ export class UsersService {
     return user;
   }
 
-  async findOne(where: { id?: UserId; username?: string; email?: string }): Promise<IUser | null> {
+  async findOne(where: {
+    id?: UserId;
+    username?: string;
+    email?: string;
+  }): Promise<IUserDb | null> {
     if (!where.id && !where.username && !where.email) return null;
 
     const user = await this.usersRepository.findOne({
@@ -60,11 +65,11 @@ export class UsersService {
     return user;
   }
 
-  async findMany(): Promise<IUser[]> {
+  async findMany(): Promise<IUserDb[]> {
     return await this.usersRepository.find();
   }
 
-  updateOne(id: UserId, dto: Partial<IUser>): Promise<UpdateResult> {
+  updateOne(id: UserId, dto: Partial<IUserDb>): Promise<UpdateResult> {
     return this.usersRepository.update(id, dto);
   }
 }

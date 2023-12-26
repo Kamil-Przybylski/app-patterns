@@ -3,8 +3,8 @@ import { Injectable, inject } from '@angular/core';
 import { APP_CONFIG } from '@libs/ng/core/config';
 import {
   AuthRoutesEnum,
-  IRefreshTokenRequestDto,
-  IRefreshTokenResponseDto,
+  IRefreshTokenReqDto,
+  IRefreshTokenResDto,
 } from '@libs/shared/communication';
 import { Observable } from 'rxjs';
 
@@ -19,14 +19,14 @@ export class AuthService {
     return this.#http.get<unknown>(`${this.#url}/${AuthRoutesEnum.LOGOUT}/${param}`);
   }
 
-  getRefreshToken(payload: IRefreshTokenRequestDto): Observable<IRefreshTokenResponseDto> {
-    return this.#http.post<IRefreshTokenResponseDto>(
+  getRefreshToken(payload: IRefreshTokenReqDto): Observable<IRefreshTokenResDto> {
+    return this.#http.post<IRefreshTokenResDto>(
       `${this.#url}/${AuthRoutesEnum.REFRESH_TOKEN}`,
       payload,
     );
   }
 
   isAuthPath(url: string) {
-    return ![AuthRoutesEnum.AUTH].some((fragment) => url.includes(fragment));
+    return [AuthRoutesEnum.AUTH].some((fragment) => url.includes(fragment));
   }
 }

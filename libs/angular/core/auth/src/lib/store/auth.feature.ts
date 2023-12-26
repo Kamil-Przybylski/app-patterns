@@ -1,9 +1,8 @@
-import { createFeature, createReducer, on } from '@ngrx/store';
-import { AUTH_FEATURE_KEY, authActions } from './auth.actions';
-import { TokenUtils } from '@libs/shared/tokens';
-import { IAccessTokenDto } from '@libs/shared/communication';
 import { StoreUtils } from '@libs/ng/shared/utils';
 import { UserId } from '@libs/shared/models';
+import { ITokenPayloadDto, TokenUtils } from '@libs/shared/tokens';
+import { createFeature, createReducer, on } from '@ngrx/store';
+import { AUTH_FEATURE_KEY, authActions } from './auth.actions';
 
 interface IState {
   userId: UserId | null;
@@ -24,8 +23,8 @@ export const authFeature = createFeature({
     on(
       authActions.logIn,
       StoreUtils.patchState(({ payload }) => {
-        const decoded = TokenUtils.decodeToken<IAccessTokenDto>(payload.accessToken);
-        return { isLogged: true, userId: decoded.sub as UserId, tokenExpiresAt: decoded.expTime };
+        const decoded = TokenUtils.decodeToken<ITokenPayloadDto>(payload.accessToken);
+        return { isLogged: true, userId: decoded.sub, tokenExpiresAt: decoded.expTime };
       }),
     ),
     on(authActions.logOutExecute, StoreUtils.patchState({ isLogged: false, userId: null })),
@@ -33,7 +32,7 @@ export const authFeature = createFeature({
     on(
       authActions.refreshTokenSuccess,
       StoreUtils.patchState(({ payload }) => {
-        const decoded = TokenUtils.decodeToken<IAccessTokenDto>(payload.accessToken);
+        const decoded = TokenUtils.decodeToken<ITokenPayloadDto>(payload.accessToken);
         return { tokenExpiresAt: decoded.expTime };
       }),
     ),

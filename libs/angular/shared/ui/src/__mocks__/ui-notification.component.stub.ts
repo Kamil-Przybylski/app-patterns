@@ -5,4 +5,4 @@ import { Component } from '@angular/core';
   standalone: true,
   template: `<ng-content></ng-content>`,
 })
-export class StubUiNotificationComponent {}
+export class UiNotificationComponent {}

@@ -1,13 +1,13 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { IUser, UsersService } from '@libs/nest/database';
+import { IUserDb, UsersService } from '@libs/nest/database';
 import {
-  IRefreshTokenResponseDto,
-  ISignInDto,
-  ISignInResponseDto,
-  ISignUpDto,
+  IRefreshTokenResDto,
+  ISignInReqDto,
+  ISignInResDto,
+  ISignUpReqDto,
 } from '@libs/shared/communication';
+import { JwtToken, UserId } from '@libs/shared/models';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { TokenService } from './token.service';
-import { UserId } from '@libs/shared/models';
 
 @Injectable()
 export class AuthService {
@@ -16,11 +16,11 @@ export class AuthService {
     private readonly tokenService: TokenService,
   ) {}
 
-  public signUp(signUpDto: ISignUpDto): Promise<IUser> {
+  public signUp(signUpDto: ISignUpReqDto): Promise<IUserDb> {
     return this.usersService.signUp(signUpDto);
   }
 
-  public async signIn(signInDto: ISignInDto): Promise<ISignInResponseDto> {
+  public async signIn(signInDto: ISignInReqDto): Promise<ISignInResDto> {
     const user = await this.usersService.signIn(signInDto);
 
     const accessToken = await this.tokenService.getTokenPayload(user.id, 'access');
@@ -38,9 +38,9 @@ export class AuthService {
   }
 
   public async getRefreshToken(
-    currentUser: IUser,
-    refreshToken: string,
-  ): Promise<IRefreshTokenResponseDto> {
+    currentUser: IUserDb,
+    refreshToken: JwtToken,
+  ): Promise<IRefreshTokenResDto> {
     const user = await this.usersService.findOne({ id: currentUser.id });
     if (!user) throw new UnauthorizedException();
     await this.tokenService.validToken(refreshToken, user?.hashedRefreshToken);

@@ -39,7 +39,7 @@
 
               {
                 "sourceTag": "domain:shared",
-                "onlyDependOnLibsWithTags": ["domain:shared"]
+                "onlyDependOnLibsWithTags": ["scope:shared", "domain:shared"]
               },
 
               {

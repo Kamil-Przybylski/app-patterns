@@ -1,11 +1,12 @@
 import { ComponentRef } from '@angular/core';
-import { SignInFormComponent } from './sign-in-form.component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
-import { UiNotificationComponent } from '@libs/ng/shared/shared/ui';
 import { ISignInFormPayload } from '@libs/ng/authentication/models';
-import { StubUiNotificationComponent } from '@libs/ng/shared/shared/stubs-ui';
+import { UiNotificationComponent } from '@libs/ng/shared/shared/ui';
+import { SignInFormComponent } from './sign-in-form.component';
+
+jest.mock('@libs/ng/shared/shared/ui');
 
 describe('SignInFormComponent', () => {
   let component: SignInFormComponent;
@@ -14,8 +15,7 @@ describe('SignInFormComponent', () => {
 
   beforeEach(async () => {
     TestBed.overrideComponent(SignInFormComponent, {
-      add: { imports: [StubUiNotificationComponent] },
-      remove: { imports: [UiNotificationComponent] },
+      add: { imports: [UiNotificationComponent] },
     }).configureTestingModule({ providers: [provideNoopAnimations()] });
 
     fixture = TestBed.createComponent(SignInFormComponent);

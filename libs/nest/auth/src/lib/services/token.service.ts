@@ -1,9 +1,9 @@
 import { ConfigRootService } from '@libs/nest/config';
+import { JwtToken, UserId } from '@libs/shared/models';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { IConfig } from '../config';
 import * as bcrypt from 'bcrypt';
-import { UserId } from '@libs/shared/models';
+import { IConfig } from '../config';
 
 type TokenType = 'access' | 'refresh';
 
@@ -14,21 +14,21 @@ export class TokenService {
     private readonly cs: ConfigRootService<IConfig>,
   ) {}
 
-  async getTokenPayload(id: UserId, type: TokenType): Promise<string> {
+  async getTokenPayload(id: UserId, type: TokenType): Promise<JwtToken> {
     const jwtConfig = this.cs.get('jwt');
 
     const tokenPayload = { sub: id };
-    return await this.jwtService.signAsync(tokenPayload, {
+    return (await this.jwtService.signAsync(tokenPayload, {
       expiresIn: type === 'refresh' ? jwtConfig.refreshExpiresIn : jwtConfig.accessExpiresIn,
-    });
+    })) as JwtToken;
   }
 
-  async hashToken(token: string): Promise<string> {
+  async hashToken(token: JwtToken): Promise<string> {
     const salt = await bcrypt.genSalt();
     return await bcrypt.hash(token, salt);
   }
 
-  async validToken(token: string, hashedRefreshToken: string | null): Promise<void> {
+  async validToken(token: JwtToken, hashedRefreshToken: string | null): Promise<void> {
     if (!hashedRefreshToken) throw new UnauthorizedException();
     const isValid = await bcrypt.compare(token, hashedRefreshToken);
     if (!isValid) throw new UnauthorizedException();

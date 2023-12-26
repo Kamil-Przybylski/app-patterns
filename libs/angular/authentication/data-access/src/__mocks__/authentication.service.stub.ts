@@ -1,14 +1,19 @@
-import { ISignInDto, ISignInResponseDto, ISignUpDto, IUserDto } from '@libs/shared/communication';
+import {
+  ISignInReqDto,
+  ISignInResDto,
+  ISignUpReqDto,
+  IUserResDto,
+} from '@libs/shared/communication';
 import { Observable } from 'rxjs';
 
-export class StubAuthenticationService {
+export class AuthenticationService {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  signUp(payload: ISignUpDto): Observable<IUserDto> {
+  signUp(payload: ISignUpReqDto): Observable<IUserResDto> {
     throw new Error('Method not implemented!');
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  signIn(payload: ISignInDto): Observable<ISignInResponseDto> {
+  signIn(payload: ISignInReqDto): Observable<ISignInResDto> {
     throw new Error('Method not implemented!');
   }
 }
