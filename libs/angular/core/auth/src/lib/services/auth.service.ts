@@ -27,6 +27,7 @@ export class AuthService {
   }
 
   isAuthPath(url: string) {
-    return [AuthRoutesEnum.AUTH].some((fragment) => url.includes(fragment));
+    const urlFragments = url.split('/');
+    return [AuthRoutesEnum.AUTH].some((fragment) => urlFragments.includes(fragment));
   }
 }

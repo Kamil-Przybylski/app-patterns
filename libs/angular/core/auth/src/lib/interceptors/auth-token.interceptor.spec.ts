@@ -90,50 +90,111 @@ describe('authTokenInterceptor', () => {
   });
 
   describe('Refresh token flow', () => {
+    beforeEach(() => {
+      (LocalStorage.getItem as jest.Mock).mockReturnValue(TOKEN);
+      jest.spyOn(store, 'dispatch');
+      jest.spyOn(authService, 'isAuthPath').mockReturnValue(false);
+    });
+
     afterEach(() => {
       httpTestingController.verify();
     });
 
     it('should delay request until refreshed token', (done) => {
-      (LocalStorage.getItem as jest.Mock).mockReturnValue(TOKEN);
-      jest.spyOn(store, 'dispatch');
-      jest.spyOn(authService, 'isAuthPath').mockReturnValue(false);
-
       const url = '/mock-endpoint';
+      // fetch first request
       httpClient.get(url).subscribe({
         complete: () => {
-          expect(store.dispatch).toHaveBeenCalledWith(authActions.refreshToken());
+          // expect correct complete request
+          expect(store.dispatch).toHaveBeenCalledTimes(1);
           expect(store.dispatch).not.toHaveBeenCalledWith(authActions.logOut());
           done();
         },
       });
 
+      // expect one request
       const req1 = httpTestingController.expectOne(url);
+      // return 401 error
       req1.error(new ProgressEvent('error'), { status: 401 });
+
+      // mock refreshTokenSuccess action
+      expect(store.dispatch).toHaveBeenCalledWith(authActions.refreshToken());
       actions$.next(authActions.refreshTokenSuccess({ payload: { accessToken: TOKEN } }));
+
+      // return success for request
       const req2 = httpTestingController.expectOne(url);
       req2.flush({});
+      // expect added token
+      expect(req2.request.headers.get('Authorization')).toBe(`Bearer ${TOKEN}`);
+    });
+
+    it('should delay every requests until refreshed token', (done) => {
+      const url1 = '/mock-endpoint-1';
+      const url2 = '/mock-endpoint-2';
+      const url3 = '/mock-endpoint-3';
+
+      // fetch first request
+      httpClient.get(url1).subscribe({
+        complete: () => {
+          // expect correct complete request
+          expect(store.dispatch).toHaveBeenCalledTimes(1);
+          expect(store.dispatch).not.toHaveBeenCalledWith(authActions.logOut());
+          done();
+        },
+      });
+
+      // expect one request
+      const req1 = httpTestingController.expectOne(url1);
+      // return 401 error
+      req1.error(new ProgressEvent('error'), { status: 401 });
+
+      // fetch extra requests
+      httpClient.get(url2).subscribe();
+      httpClient.get(url3).subscribe();
+
+      // expect that request haven't been fetched until refresh token
+      httpTestingController.expectNone(url2);
+      httpTestingController.expectNone(url3);
+      // expect that authActions.refreshToken has been called once
+      expect(store.dispatch).toHaveBeenCalledTimes(1);
+
+      // mock refreshTokenSuccess action
+      expect(store.dispatch).toHaveBeenCalledWith(authActions.refreshToken());
+      actions$.next(authActions.refreshTokenSuccess({ payload: { accessToken: TOKEN } }));
+
+      // return success for first request
+      const req2 = httpTestingController.expectOne(url1);
+      req2.flush({});
+
+      // expect other request to be completed
+      httpTestingController.expectOne(url2);
+      httpTestingController.expectOne(url3);
+
+      // expect added token
       expect(req2.request.headers.get('Authorization')).toBe(`Bearer ${TOKEN}`);
     });
 
     it('should logout if refreshed token failure', (done) => {
-      (LocalStorage.getItem as jest.Mock).mockReturnValue(TOKEN);
-      jest.spyOn(store, 'dispatch');
-      jest.spyOn(authService, 'isAuthPath').mockReturnValue(false);
-
       const url = '/mock-endpoint';
+      // fetch first request
       httpClient.get(url).subscribe({
         error: () => {
+          // expect correct error handle
           expect(store.dispatch).toHaveBeenCalledWith(authActions.refreshToken());
           expect(store.dispatch).toHaveBeenCalledWith(authActions.logOut());
           done();
         },
       });
 
+      // expect one request
       const req1 = httpTestingController.expectOne(url);
+      // return 401 error
       req1.error(new ProgressEvent('error'), { status: 401 });
+
+      // mock refreshTokenSuccess action
       actions$.next(authActions.refreshTokenSuccess({ payload: { accessToken: TOKEN } }));
       const req2 = httpTestingController.expectOne(url);
+      // return 401 error again
       req2.error(new ProgressEvent('error'), { status: 401 });
     });
   });
