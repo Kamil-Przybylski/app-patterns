@@ -48,7 +48,7 @@ export class AuthenticationController {
   ): Promise<IRefreshTokenResDto> {
     if (!refreshTokenDto) throw new UnauthorizedException();
     const payload = await this.authService.getRefreshToken(user, refreshTokenDto.refreshToken);
-    await new Promise((resolve) => setTimeout(resolve, 2000)); // TEMP: for test purposes
+    // await new Promise((resolve) => setTimeout(resolve, 2000)); // TEMP: for test purposes
     return payload;
   }
 }

@@ -38,7 +38,6 @@ describe('authTokenInterceptor', () => {
         provideHttpClientTesting(),
         provideMockStore({ initialState: {} }),
         provideMockActions(() => actions$),
-        // { provide: Actions, useValue: actions$ },
         { provide: AuthService, useClass: StubAuthService },
       ],
     });

@@ -1,4 +1,4 @@
 jwt:
   secret: 'my-super-secret-2'
-  accessExpiresIn: '5s'
-  refreshExpiresIn: '15s'
+  accessExpiresIn: '10m'
+  refreshExpiresIn: '7d'
