@@ -1,3 +1,4 @@
+import { AuthorizationEventsHandler } from '@libs/nest/events';
 import { MicroservicesKeyEnum } from '@libs/nest/microservices';
 import {
   CanActivate,
@@ -19,14 +20,16 @@ export class ApiAuthGuard implements CanActivate {
     }
 
     const request = context.switchToHttp().getRequest();
-    return this.adminClient.send({ cmd: 'verify-jwt' }, { headers: request.headers }).pipe(
-      map((valid) => {
-        if (!valid) throw new UnauthorizedException();
+    const clientHandler = new AuthorizationEventsHandler(this.adminClient);
+    return clientHandler.validateAndGetUser(request.headers).pipe(
+      map((user) => {
+        if (!user) throw new UnauthorizedException();
+        request.user = user;
         return true;
       }),
       catchError(() => {
         throw new UnauthorizedException();
-      })
+      }),
     );
   }
 }

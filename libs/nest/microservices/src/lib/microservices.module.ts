@@ -1,7 +1,8 @@
 import { ConfigRootService } from '@libs/nest/config';
-import { DynamicModule, Module } from '@nestjs/common';
+import { DynamicModule, Global, Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 
+@Global()
 @Module({})
 export class MicroservicesModule {
   static forRoot<T>(options: {

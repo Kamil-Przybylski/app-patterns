@@ -1,0 +1,23 @@
+{
+  "name": "nest-domains-workspace",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/nest/domains/workspace/src",
+  "projectType": "library",
+  "tags": ["scope:backend"],
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/nest/domains/workspace/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/nest/domains/workspace/jest.config.ts"
+      }
+    }
+  }
+}

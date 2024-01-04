@@ -20,6 +20,7 @@
       "@libs/nest/database": ["libs/nest/database/src/index.ts"],
       "@libs/nest/events": ["libs/nest/events/src/index.ts"],
       "@libs/nest/microservices": ["libs/nest/microservices/src/index.ts"],
+      "@libs/nest/domains/workspace": ["libs/nest/domains/workspace/src/index.ts"],
       "@libs/ng/authentication/api": ["libs/angular/authentication/api/src/index.ts"],
       "@libs/ng/authentication/data-access": [
         "libs/angular/authentication/data-access/src/index.ts"

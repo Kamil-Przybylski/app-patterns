@@ -4,7 +4,7 @@
  */
 
 import { ConfigRootService } from '@libs/nest/config';
-import { Logger } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { Transport } from '@nestjs/microservices';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
@@ -26,6 +26,7 @@ async function bootstrap() {
   Logger.log(`🚀 Microservice is running on TCP ${tcpConfig.port}`);
 
   app.setGlobalPrefix(httpConfig.prefix);
+  app.useGlobalPipes(new ValidationPipe());
   if (httpConfig.cors) app.enableCors();
   await app.listen(httpConfig.port, '0.0.0.0');
   Logger.log(

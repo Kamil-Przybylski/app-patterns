@@ -1,1 +1,1 @@
-export * from './lib/create-user.event';
+export * from './lib/authorization-events.handler';

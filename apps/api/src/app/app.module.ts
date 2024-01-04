@@ -3,9 +3,8 @@ import { Module } from '@nestjs/common';
 
 import { DatabaseModule } from '@libs/nest/database';
 import { MicroservicesKeyEnum, MicroservicesModule } from '@libs/nest/microservices';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { IConfig, configSchema } from './config';
+import { WorkspaceModule } from './modules/workspaces/workspaces.module';
 
 @Module({
   imports: [
@@ -16,8 +15,8 @@ import { IConfig, configSchema } from './config';
     }),
 
     DatabaseModule,
+    WorkspaceModule,
   ],
-  controllers: [AppController],
-  providers: [ConfigRootService, AppService],
+  providers: [ConfigRootService],
 })
 export class AppModule {}

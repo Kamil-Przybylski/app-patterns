@@ -1,4 +1,6 @@
-import { AuthService, JwtAuthGuard, RcpExceptionsFilter } from '@libs/nest/auth';
+import { AuthService, GetUser, JwtAuthGuard, RcpExceptionsFilter } from '@libs/nest/auth';
+import { IUserDb } from '@libs/nest/database';
+import { AuthorizationEventsHandler } from '@libs/nest/events';
 import { AuthRoutesEnum, CommonRoutesParamEnum } from '@libs/shared/communication';
 import { UserId } from '@libs/shared/models';
 import { Controller, Get, Param, UseFilters, UseGuards } from '@nestjs/common';
@@ -14,10 +16,10 @@ export class AuthorizationController {
     return this.authService.logout(userId);
   }
 
-  @MessagePattern({ cmd: 'verify-jwt' })
+  @MessagePattern(AuthorizationEventsHandler.CMD)
   @UseFilters(RcpExceptionsFilter)
   @UseGuards(JwtAuthGuard)
-  verifyJwt(): boolean {
-    return true;
+  verifyJwt(@GetUser() user: IUserDb): IUserDb {
+    return user;
   }
 }
