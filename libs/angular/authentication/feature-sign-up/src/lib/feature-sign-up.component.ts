@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { ChangeDetectionStrategy, Component, Signal, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
@@ -28,10 +27,8 @@ import { ISignUpReqDto } from '@libs/shared/communication';
 export class FeatureSignUpComponent {
   #authenticationFacade = inject(AuthenticationFacade);
 
-  readonly isLoading = toSignal(this.#authenticationFacade.isSignInLoading$, {
-    initialValue: false,
-  });
-  readonly errorMessage = toSignal(this.#authenticationFacade.errorMessage$);
+  readonly isLoading: Signal<boolean> = this.#authenticationFacade.isSignInLoading;
+  readonly errorMessage: Signal<string | undefined> = this.#authenticationFacade.errorMessage;
 
   public handleSubmit(formPayload: ISignUpFormPayload) {
     const payload: ISignUpReqDto = {

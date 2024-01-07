@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { Injectable, Signal, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { authActions } from '@libs/ng/core/auth';
 import { CallStatusEnum, CallStatusState, StoreUtils } from '@libs/ng/shared/utils';
@@ -64,15 +64,17 @@ export class AuthenticationFacade extends ComponentStore<AuthenticationState> {
     ),
   );
 
-  readonly signInCallState$: Observable<CallStatusState> = this.select((state) => state.callStatus);
+  readonly signInCallState: Signal<CallStatusState> = this.selectSignal(
+    (state) => state.callStatus,
+  );
 
-  readonly isSignInLoading$: Observable<boolean> = this.select(
-    this.signInCallState$,
+  readonly isSignInLoading: Signal<boolean> = this.selectSignal(
+    this.signInCallState,
     (signInCallState) => signInCallState === CallStatusEnum.LOADING,
   );
 
-  readonly errorMessage$: Observable<string | undefined> = this.select(
-    this.signInCallState$,
+  readonly errorMessage: Signal<string | undefined> = this.selectSignal(
+    this.signInCallState,
     (signInCallState) => StoreUtils.getCallStateError(signInCallState),
   );
 }
